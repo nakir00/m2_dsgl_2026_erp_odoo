@@ -1,0 +1,16 @@
+.DS_Store
+.env
+
+# Python
+__pycache__/
+*.py[cod]
+
+# Odoo runtime data
+*.log
+.local/
+
+# Editors
+.idea/
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json

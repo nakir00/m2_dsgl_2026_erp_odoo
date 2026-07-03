@@ -1,0 +1,34 @@
+services:
+  odoo:
+    build: ./odoo
+    container_name: pharmacie-odoo18
+    depends_on:
+      - db
+    ports:
+      - "${ODOO_PORT:-8072}:8069"
+    volumes:
+      - odoo_data:/var/lib/odoo
+      - ./custom_addons:/mnt/custom_addons
+      - ./odoo/odoo.conf:/etc/odoo/odoo.conf:ro
+    environment:
+      HOST: ${ODOO_DB_HOST:-db}
+      USER: ${ODOO_DB_USER:-odoo}
+      PASSWORD: ${ODOO_DB_PASSWORD:-odoo}
+    restart: unless-stopped
+
+  db:
+    image: postgres:15
+    container_name: pharmacie-postgres15
+    ports:
+      - "${POSTGRES_PORT:-54320}:5432"
+    volumes:
+      - odoo_db_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-postgres}
+      POSTGRES_USER: ${POSTGRES_USER:-odoo}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-odoo}
+    restart: unless-stopped
+
+volumes:
+  odoo_data:
+  odoo_db_data:

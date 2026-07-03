@@ -1,0 +1,15 @@
+{
+  "files.associations": {
+    "*.xml": "xml",
+    "*.csv": "csv",
+    "*.yml": "yaml",
+    "*.yaml": "yaml"
+  },
+  "files.exclude": {
+    "**/__pycache__": true,
+    "**/*.pyc": true
+  },
+  "files.trimTrailingWhitespace": true,
+  "editor.formatOnSave": false,
+  "python.analysis.typeCheckingMode": "basic"
+}
