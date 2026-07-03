@@ -1,0 +1,36 @@
+- name: bug
+  color: d73a4a
+  description: Incorrect behavior or regression
+- name: feature
+  color: 0e8a16
+  description: New feature or user-facing improvement
+- name: tech-debt
+  color: c5def5
+  description: Technical improvement not directly visible to users
+- name: urgent
+  color: b60205
+  description: Needs quick attention
+- name: backend
+  color: 1d76db
+  description: API, database, server, or business logic
+- name: frontend
+  color: 5319e7
+  description: Web interface
+- name: mobile
+  color: fbca04
+  description: Mobile application
+- name: blocked
+  color: e99695
+  description: Blocked by missing information or dependency
+- name: documentation
+  color: 0075ca
+  description: Documentation work
+- name: testing
+  color: c2e0c6
+  description: Unit, integration, or manual testing
+- name: refactor
+  color: fef2c0
+  description: Internal code change without expected user-facing behavior change
+- name: security
+  color: ee0701
+  description: Security, permissions, access, or sensitive data
