@@ -20,6 +20,7 @@ Fonctionnalités :
         # Ordre de chargement à respecter au fur et à mesure des tickets :
         # 1. security/groups.xml
         # 2. security/ir.model.access.csv
+        'security/ir.model.access.csv',
         # 3. security/record_rules.xml
         # 4. data/*.xml
         # 5. views/*.xml
