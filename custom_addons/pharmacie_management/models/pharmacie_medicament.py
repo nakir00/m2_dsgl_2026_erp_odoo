@@ -1,4 +1,4 @@
-from odoo import fields, models
+from odoo import api, fields, models
 
 
 class PharmacieMedicament(models.Model):
@@ -33,7 +33,17 @@ class PharmacieMedicament(models.Model):
     prix_achat = fields.Monetary(string="Prix d'achat")
     prix_vente = fields.Monetary(string="Prix de vente")
     tva = fields.Float(string="TVA (%)")
+    marge_pct = fields.Float(
+        string="Marge (%)", compute='_compute_marge_pct', store=True)
 
     sur_ordonnance = fields.Boolean(string="Vente sur ordonnance")
     notice = fields.Text(string="Notice")
     photo = fields.Image(string="Photo")
+
+    @api.depends('prix_achat', 'prix_vente')
+    def _compute_marge_pct(self):
+        for rec in self:
+            if rec.prix_achat:
+                rec.marge_pct = (rec.prix_vente - rec.prix_achat) / rec.prix_achat * 100
+            else:
+                rec.marge_pct = 0.0
