@@ -1,0 +1,9 @@
+<odoo>
+    <record id="seq_pharmacie_lot" model="ir.sequence">
+        <field name="name">Numéro de lot pharmacie</field>
+        <field name="code">pharmacie.lot</field>
+        <field name="prefix">LOT/%(year)s/</field>
+        <field name="padding">4</field>
+        <field name="company_id" eval="False"/>
+    </record>
+</odoo>

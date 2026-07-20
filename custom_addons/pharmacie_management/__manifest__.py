@@ -23,6 +23,7 @@ Fonctionnalités :
         'security/ir.model.access.csv',
         # 3. security/record_rules.xml
         # 4. data/*.xml
+        'data/ir_sequence.xml',
         # 5. views/*.xml
         'views/res_partner_views.xml',
         'views/pharmacie_medicament_views.xml',
