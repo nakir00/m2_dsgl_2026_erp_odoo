@@ -40,6 +40,10 @@ class PharmacieMedicament(models.Model):
     notice = fields.Text(string="Notice")
     photo = fields.Image(string="Photo")
 
+    lot_ids = fields.One2many('pharmacie.lot', 'medicament_id', string="Lots")
+    stock_actuel = fields.Float(
+        string="Stock actuel", compute='_compute_stock_actuel', store=True)
+
     @api.depends('prix_achat', 'prix_vente')
     def _compute_marge_pct(self):
         for rec in self:
@@ -47,3 +51,13 @@ class PharmacieMedicament(models.Model):
                 rec.marge_pct = (rec.prix_vente - rec.prix_achat) / rec.prix_achat * 100
             else:
                 rec.marge_pct = 0.0
+
+    @api.depends('lot_ids.quantite_actuelle', 'lot_ids.date_peremption')
+    def _compute_stock_actuel(self):
+        today = fields.Date.context_today(self)
+        for rec in self:
+            lots_valides = rec.lot_ids.filtered(
+                lambda lot: lot.quantite_actuelle > 0
+                and (not lot.date_peremption or lot.date_peremption >= today)
+            )
+            rec.stock_actuel = sum(lots_valides.mapped('quantite_actuelle'))
