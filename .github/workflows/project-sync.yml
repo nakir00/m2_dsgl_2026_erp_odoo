@@ -1,0 +1,90 @@
+name: Sync Project status to Done
+
+on:
+  issues:
+    types: [closed]
+  pull_request:
+    types: [closed]
+
+env:
+  PROJECT_ID: PVT_kwHOBk7C0c4BcIEI
+  STATUS_FIELD_ID: PVTSSF_lAHOBk7C0c4BcIEIzhWzGmg
+  DONE_OPTION_ID: "98236657"
+
+jobs:
+  move-to-done:
+    if: github.event_name == 'issues' || github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    steps:
+      - name: Collect issue numbers to move
+        id: issues
+        env:
+          GH_TOKEN: ${{ secrets.PROJECT_TOKEN }}
+        run: |
+          set -euo pipefail
+
+          if [ "${{ github.event_name }}" = "issues" ]; then
+            numbers="${{ github.event.issue.number }}"
+          else
+            numbers=$(gh api graphql -f query='
+              query($owner: String!, $repo: String!, $pr: Int!) {
+                repository(owner: $owner, name: $repo) {
+                  pullRequest(number: $pr) {
+                    closingIssuesReferences(first: 20) {
+                      nodes { number }
+                    }
+                  }
+                }
+              }' -f owner="${{ github.repository_owner }}" -f repo="${{ github.event.repository.name }}" -F pr=${{ github.event.pull_request.number }} \
+              --jq '.data.repository.pullRequest.closingIssuesReferences.nodes[].number')
+          fi
+
+          echo "numbers<<EOF" >> "$GITHUB_OUTPUT"
+          echo "$numbers" >> "$GITHUB_OUTPUT"
+          echo "EOF" >> "$GITHUB_OUTPUT"
+
+      - name: Move linked issues to Done
+        if: steps.issues.outputs.numbers != ''
+        env:
+          GH_TOKEN: ${{ secrets.PROJECT_TOKEN }}
+        run: |
+          set -euo pipefail
+
+          items=$(gh api graphql -f query='
+            query($project: ID!) {
+              node(id: $project) {
+                ... on ProjectV2 {
+                  items(first: 100) {
+                    nodes {
+                      id
+                      content {
+                        ... on Issue { number }
+                      }
+                    }
+                  }
+                }
+              }
+            }' -f project="$PROJECT_ID" \
+            --jq '.data.node.items.nodes[] | select(.content.number != null) | [.content.number, .id] | @tsv')
+
+          while IFS= read -r number; do
+            [ -z "$number" ] && continue
+            item_id=$(printf '%s\n' "$items" | awk -F'\t' -v n="$number" '$1 == n { print $2 }')
+            if [ -z "$item_id" ]; then
+              echo "Issue #$number is not in the project, skipping"
+              continue
+            fi
+
+            echo "Moving issue #$number (item $item_id) to Done"
+            gh api graphql -f query='
+              mutation($project: ID!, $item: ID!, $field: ID!, $option: String!) {
+                updateProjectV2ItemFieldValue(input: {
+                  projectId: $project
+                  itemId: $item
+                  fieldId: $field
+                  value: { singleSelectOptionId: $option }
+                }) {
+                  projectV2Item { id }
+                }
+              }' -f project="$PROJECT_ID" -f item="$item_id" -f field="$STATUS_FIELD_ID" -f option="$DONE_OPTION_ID"
+          done <<< "${{ steps.issues.outputs.numbers }}"
