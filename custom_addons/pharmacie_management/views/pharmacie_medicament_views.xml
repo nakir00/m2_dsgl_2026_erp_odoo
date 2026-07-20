@@ -1,0 +1,16 @@
+<odoo>
+    <record id="view_pharmacie_medicament_list" model="ir.ui.view">
+        <field name="name">pharmacie.medicament.list</field>
+        <field name="model">pharmacie.medicament</field>
+        <field name="arch" type="xml">
+            <list decoration-danger="alerte_rupture">
+                <field name="name"/>
+                <field name="dci"/>
+                <field name="categorie_id"/>
+                <field name="stock_actuel"/>
+                <field name="seuil_alerte"/>
+                <field name="alerte_rupture" invisible="1"/>
+            </list>
+        </field>
+    </record>
+</odoo>

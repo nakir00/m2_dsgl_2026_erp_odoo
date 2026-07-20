@@ -43,6 +43,9 @@ class PharmacieMedicament(models.Model):
     lot_ids = fields.One2many('pharmacie.lot', 'medicament_id', string="Lots")
     stock_actuel = fields.Float(
         string="Stock actuel", compute='_compute_stock_actuel', store=True)
+    seuil_alerte = fields.Integer(string="Seuil d'alerte", default=10)
+    alerte_rupture = fields.Boolean(
+        string="Alerte rupture", compute='_compute_alerte_rupture', store=True)
 
     @api.depends('prix_achat', 'prix_vente')
     def _compute_marge_pct(self):
@@ -61,3 +64,8 @@ class PharmacieMedicament(models.Model):
                 and (not lot.date_peremption or lot.date_peremption >= today)
             )
             rec.stock_actuel = sum(lots_valides.mapped('quantite_actuelle'))
+
+    @api.depends('stock_actuel', 'seuil_alerte')
+    def _compute_alerte_rupture(self):
+        for rec in self:
+            rec.alerte_rupture = rec.stock_actuel <= rec.seuil_alerte
