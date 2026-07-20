@@ -1,0 +1,28 @@
+<odoo>
+    <record id="view_partner_form_inherit_pharma" model="ir.ui.view">
+        <field name="name">res.partner.form.pharma</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet" position="inside">
+                <group string="Informations pharmaceutiques" name="pharma_info">
+                    <field name="is_fournisseur_pharma"/>
+                    <field name="numero_agrement" invisible="not is_fournisseur_pharma"/>
+                    <field name="delai_livraison_moyen" invisible="not is_fournisseur_pharma"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_partner_search_inherit_pharma" model="ir.ui.view">
+        <field name="name">res.partner.search.pharma</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_res_partner_filter"/>
+        <field name="arch" type="xml">
+            <xpath expr="//search" position="inside">
+                <filter name="fournisseur_pharma" string="Fournisseurs pharmaceutiques"
+                        domain="[('is_fournisseur_pharma', '=', True)]"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

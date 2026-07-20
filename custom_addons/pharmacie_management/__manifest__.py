@@ -24,6 +24,7 @@ Fonctionnalités :
         # 3. security/record_rules.xml
         # 4. data/*.xml
         # 5. views/*.xml
+        'views/res_partner_views.xml',
         # 6. wizards/*.xml
         # 7. reports/*.xml
     ],
