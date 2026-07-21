@@ -89,10 +89,11 @@
               parent="menu_pharmacie_fournisseurs" action="action_pharmacie_reappro"
               sequence="20"/>
 
-    <!-- Rapports : Pharmacien et Gestionnaire uniquement.
-         Le wizard "Bilan de caisse" (ticket #45) ajoutera l'entrée
-         "Bilan de caisse" sous ce menu. -->
+    <!-- Rapports : Pharmacien et Gestionnaire uniquement -->
     <menuitem id="menu_pharmacie_rapports" name="Rapports"
               parent="menu_pharmacie_root" sequence="50"
               groups="group_pharmacie_pharmacien"/>
+    <menuitem id="menu_pharmacie_bilan_caisse" name="Bilan de caisse"
+              parent="menu_pharmacie_rapports" action="action_pharmacie_bilan_caisse_wizard"
+              sequence="10"/>
 </odoo>

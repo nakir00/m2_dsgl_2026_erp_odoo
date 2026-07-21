@@ -1,0 +1,36 @@
+<odoo>
+    <record id="view_pharmacie_bilan_caisse_wizard_form" model="ir.ui.view">
+        <field name="name">pharmacie.bilan.caisse.wizard.form</field>
+        <field name="model">pharmacie.bilan.caisse.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <field name="date_debut"/>
+                    <field name="date_fin"/>
+                </group>
+                <group string="Résumé">
+                    <field name="nombre_ventes"/>
+                    <field name="ca_total"/>
+                    <field name="panier_moyen"/>
+                </group>
+                <field name="ligne_vendeur_ids" string="Chiffre d'affaires par vendeur">
+                    <list editable="false">
+                        <field name="vendeur_id"/>
+                        <field name="nombre_ventes"/>
+                        <field name="ca"/>
+                    </list>
+                </field>
+                <footer>
+                    <button string="Fermer" special="cancel" class="btn-secondary"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_pharmacie_bilan_caisse_wizard" model="ir.actions.act_window">
+        <field name="name">Bilan de caisse</field>
+        <field name="res_model">pharmacie.bilan.caisse.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+</odoo>

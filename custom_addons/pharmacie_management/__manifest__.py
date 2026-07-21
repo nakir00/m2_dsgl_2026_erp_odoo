@@ -35,6 +35,7 @@ Fonctionnalités :
         'views/pharmacie_reappro_views.xml',
         # 6. wizards/*.xml
         'wizards/pharmacie_reappro_auto_wizard_views.xml',
+        'wizards/pharmacie_bilan_caisse_wizard_views.xml',
         'views/pharmacie_menu.xml',
         # 7. reports/*.xml
     ],
