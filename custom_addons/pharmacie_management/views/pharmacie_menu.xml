@@ -11,6 +11,13 @@
               parent="menu_pharmacie_caisse" action="action_pharmacie_vente"
               sequence="20"/>
 
+    <!-- Ordonnances : accessible à tous les profils -->
+    <menuitem id="menu_pharmacie_ordonnances" name="Ordonnances"
+              parent="menu_pharmacie_root" sequence="20"/>
+    <menuitem id="menu_pharmacie_ordonnance_liste" name="Liste des ordonnances"
+              parent="menu_pharmacie_ordonnances" action="action_pharmacie_ordonnance"
+              sequence="10"/>
+
     <!-- Configuration : Pharmacien et Gestionnaire uniquement -->
     <menuitem id="menu_pharmacie_configuration" name="Configuration"
               parent="menu_pharmacie_root" sequence="90"
