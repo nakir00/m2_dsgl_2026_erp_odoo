@@ -15,6 +15,13 @@
               parent="menu_pharmacie_configuration" action="action_pharmacie_categorie"
               sequence="10"/>
 
+    <!-- Stock : accessible à tous les profils (lecture seule pour le vendeur via l'ACL) -->
+    <menuitem id="menu_pharmacie_stock" name="Stock"
+              parent="menu_pharmacie_root" sequence="30"/>
+    <menuitem id="menu_pharmacie_medicament" name="Médicaments"
+              parent="menu_pharmacie_stock" action="action_pharmacie_medicament"
+              sequence="10"/>
+
     <!-- Fournisseurs : Pharmacien et Gestionnaire uniquement -->
     <menuitem id="menu_pharmacie_fournisseurs" name="Fournisseurs"
               parent="menu_pharmacie_root" sequence="40"

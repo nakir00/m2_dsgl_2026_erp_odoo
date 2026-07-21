@@ -6,10 +6,120 @@
             <list decoration-danger="stock_actuel &lt;= alerte_rupture">
                 <field name="nom_commercial"/>
                 <field name="dci"/>
+                <field name="forme"/>
                 <field name="categorie_id"/>
+                <field name="fournisseur_id"/>
                 <field name="stock_actuel"/>
                 <field name="alerte_rupture"/>
+                <field name="prix_vente"/>
+                <field name="sur_ordonnance"/>
             </list>
         </field>
+    </record>
+
+    <record id="view_pharmacie_medicament_form" model="ir.ui.view">
+        <field name="name">pharmacie.medicament.form</field>
+        <field name="model">pharmacie.medicament</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <field name="photo" widget="image" class="oe_avatar"/>
+                    <div class="oe_title">
+                        <h1><field name="nom_commercial" placeholder="Nom commercial"/></h1>
+                    </div>
+                    <group>
+                        <group string="Identification">
+                            <field name="dci"/>
+                            <field name="forme"/>
+                            <field name="dosage"/>
+                            <field name="conditionnement"/>
+                            <field name="categorie_id"/>
+                        </group>
+                        <group string="Tarification">
+                            <field name="fournisseur_id"/>
+                            <field name="prix_achat"/>
+                            <field name="prix_vente"/>
+                            <field name="taux_tva"/>
+                            <field name="marge_pct"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group string="Stock">
+                            <field name="stock_actuel"/>
+                            <field name="alerte_rupture"/>
+                        </group>
+                        <group string="Réglementation">
+                            <field name="sur_ordonnance"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Notice" name="notice">
+                            <field name="notice"/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_pharmacie_medicament_kanban" model="ir.ui.view">
+        <field name="name">pharmacie.medicament.kanban</field>
+        <field name="model">pharmacie.medicament</field>
+        <field name="arch" type="xml">
+            <kanban>
+                <field name="nom_commercial"/>
+                <field name="dci"/>
+                <field name="stock_actuel"/>
+                <field name="alerte_rupture"/>
+                <field name="prix_vente"/>
+                <templates>
+                    <t t-name="card">
+                        <div class="d-flex align-items-center">
+                            <field name="photo" widget="image"
+                                   options="{'size': [40, 40]}" class="me-2"/>
+                            <div>
+                                <div class="fw-bold"><field name="nom_commercial"/></div>
+                                <div class="text-muted"><field name="dci"/></div>
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-between mt-1">
+                            <field name="stock_actuel"/>
+                            <field name="prix_vente"/>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="view_pharmacie_medicament_search" model="ir.ui.view">
+        <field name="name">pharmacie.medicament.search</field>
+        <field name="model">pharmacie.medicament</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="nom_commercial"
+                       filter_domain="['|', ('nom_commercial', 'ilike', self), ('dci', 'ilike', self)]"
+                       string="Médicament"/>
+                <field name="categorie_id"/>
+                <field name="fournisseur_id"/>
+                <filter name="sur_ordonnance" string="Sur ordonnance"
+                        domain="[('sur_ordonnance', '=', True)]"/>
+                <filter name="stock_epuise" string="Stock épuisé"
+                        domain="[('stock_actuel', '&lt;=', 0)]"/>
+                <separator/>
+                <group expand="0" string="Regrouper par">
+                    <filter name="group_categorie" string="Catégorie"
+                            context="{'group_by': 'categorie_id'}"/>
+                    <filter name="group_forme" string="Forme galénique"
+                            context="{'group_by': 'forme'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_pharmacie_medicament" model="ir.actions.act_window">
+        <field name="name">Médicaments</field>
+        <field name="res_model">pharmacie.medicament</field>
+        <field name="view_mode">list,form,kanban</field>
     </record>
 </odoo>
