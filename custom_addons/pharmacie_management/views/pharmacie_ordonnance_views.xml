@@ -1,0 +1,38 @@
+<odoo>
+    <record id="view_pharmacie_ordonnance_form" model="ir.ui.view">
+        <field name="name">pharmacie.ordonnance.form</field>
+        <field name="model">pharmacie.ordonnance</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="patient_id"/>
+                            <field name="medecin"/>
+                            <field name="structure"/>
+                        </group>
+                        <group>
+                            <field name="date_ordonnance"/>
+                            <field name="state"/>
+                        </group>
+                    </group>
+                    <group string="Scan de l'ordonnance">
+                        <field name="scan_ordonnance_filename" invisible="1"/>
+                        <field name="scan_ordonnance" widget="binary"
+                               filename="scan_ordonnance_filename"/>
+                    </group>
+                    <notebook>
+                        <page string="Médicaments prescrits" name="posologie">
+                            <field name="posologie_ids">
+                                <list editable="bottom">
+                                    <field name="medicament_id"/>
+                                    <field name="instructions"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+</odoo>

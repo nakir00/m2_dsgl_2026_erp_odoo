@@ -19,6 +19,7 @@ class PharmacieOrdonnance(models.Model):
         ],
         string="Statut", default='brouillon')
     scan_ordonnance = fields.Binary(string="Scan de l'ordonnance")
+    scan_ordonnance_filename = fields.Char(string="Nom du fichier scanné")
     posologie_ids = fields.One2many(
         'pharmacie.posologie', 'ordonnance_id', string="Médicaments prescrits")
 
