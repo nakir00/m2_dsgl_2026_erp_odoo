@@ -23,6 +23,7 @@ Fonctionnalités :
         # 2. security/ir.model.access.csv
         'security/ir.model.access.csv',
         # 3. security/record_rules.xml
+        'security/record_rules.xml',
         # 4. data/*.xml
         'data/ir_sequence.xml',
         # 5. views/*.xml

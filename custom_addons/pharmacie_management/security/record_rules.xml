@@ -1,0 +1,22 @@
+<odoo noupdate="1">
+    <record id="rule_pharmacie_vente_vendeur" model="ir.rule">
+        <field name="name">Vente : le vendeur ne voit que ses propres ventes</field>
+        <field name="model_id" ref="model_pharmacie_vente"/>
+        <field name="groups" eval="[(4, ref('group_pharmacie_vendeur'))]"/>
+        <field name="domain_force">[('vendeur_id', '=', user.id)]</field>
+    </record>
+
+    <record id="rule_pharmacie_vente_pharmacien" model="ir.rule">
+        <field name="name">Vente : le pharmacien voit toutes les ventes</field>
+        <field name="model_id" ref="model_pharmacie_vente"/>
+        <field name="groups" eval="[(4, ref('group_pharmacie_pharmacien'))]"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+    </record>
+
+    <record id="rule_pharmacie_vente_gestionnaire" model="ir.rule">
+        <field name="name">Vente : le gestionnaire voit toutes les ventes</field>
+        <field name="model_id" ref="model_pharmacie_vente"/>
+        <field name="groups" eval="[(4, ref('group_pharmacie_gestionnaire'))]"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+    </record>
+</odoo>
