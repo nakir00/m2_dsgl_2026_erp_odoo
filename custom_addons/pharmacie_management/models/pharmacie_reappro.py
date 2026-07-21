@@ -1,4 +1,5 @@
-from odoo import api, fields, models
+from odoo import _, api, fields, models
+from odoo.exceptions import UserError
 
 
 class PharmacieReappro(models.Model):
@@ -42,10 +43,19 @@ class PharmacieReappro(models.Model):
                 vals['reference'] = self.env['ir.sequence'].next_by_code('pharmacie.reappro')
         return super().create(vals_list)
 
+    def action_commander(self):
+        for reappro in self:
+            if reappro.state != 'brouillon':
+                raise UserError(_(
+                    "Seul un bon de commande en brouillon peut être commandé."))
+            reappro.state = 'commandee'
+
     def action_receptionner(self):
         for reappro in self:
-            if reappro.state == 'recue':
-                continue
+            if reappro.state not in ('commandee', 'recue_partiellement'):
+                raise UserError(_(
+                    "Seule une commande passée (Commandée ou Reçue partiellement) "
+                    "peut être réceptionnée."))
             for line in reappro.ligne_ids:
                 self.env['pharmacie.lot'].create({
                     'medicament_id': line.medicament_id.id,

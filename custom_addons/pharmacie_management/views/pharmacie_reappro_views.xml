@@ -5,8 +5,11 @@
         <field name="arch" type="xml">
             <form>
                 <header>
+                    <button name="action_commander" string="Commander" type="object"
+                            class="btn-primary" invisible="state != 'brouillon'"/>
                     <button name="action_receptionner" string="Réceptionner" type="object"
-                            class="btn-primary" invisible="state == 'recue'"/>
+                            class="btn-primary"
+                            invisible="state not in ('commandee', 'recue_partiellement')"/>
                     <field name="state" widget="statusbar"
                            statusbar_visible="brouillon,commandee,recue_partiellement,recue"/>
                 </header>
