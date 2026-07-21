@@ -64,7 +64,7 @@
                 <filter name="expire" string="Expiré" domain="[('statut', '=', 'expire')]"/>
                 <filter name="epuise" string="Épuisé" domain="[('statut', '=', 'epuise')]"/>
                 <filter name="peremption_proche" string="Péremption proche (&lt; 30 jours)"
-                        domain="[('jours_avant_peremption', '&lt;', 30)]"/>
+                        domain="[('date_peremption', '&lt;=', (context_today() + relativedelta(days=30)).strftime('%Y-%m-%d'))]"/>
                 <separator/>
                 <group expand="0" string="Regrouper par">
                     <filter name="group_medicament" string="Médicament"

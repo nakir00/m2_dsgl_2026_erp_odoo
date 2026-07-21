@@ -32,6 +32,15 @@
               parent="menu_pharmacie_configuration" action="action_pharmacie_categorie"
               sequence="10"/>
 
+    <record id="action_pharmacie_parametres" model="ir.actions.act_window">
+        <field name="name">Paramètres de la pharmacie</field>
+        <field name="res_model">res.company</field>
+        <field name="view_mode">list,form</field>
+    </record>
+    <menuitem id="menu_pharmacie_parametres" name="Paramètres de la pharmacie"
+              parent="menu_pharmacie_configuration" action="action_pharmacie_parametres"
+              sequence="20"/>
+
     <!-- Stock : accessible à tous les profils (lecture seule pour le vendeur via l'ACL) -->
     <menuitem id="menu_pharmacie_stock" name="Stock"
               parent="menu_pharmacie_root" sequence="30"/>
@@ -41,6 +50,16 @@
     <menuitem id="menu_pharmacie_lot" name="Lots et stocks"
               parent="menu_pharmacie_stock" action="action_pharmacie_lot"
               sequence="20"/>
+
+    <record id="action_pharmacie_lot_alertes" model="ir.actions.act_window">
+        <field name="name">Alertes de péremption / rupture</field>
+        <field name="res_model">pharmacie.lot</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">['|', ('statut', 'in', ['expire', 'epuise']), ('date_peremption', '&lt;=', (context_today() + relativedelta(days=30)).strftime('%Y-%m-%d'))]</field>
+    </record>
+    <menuitem id="menu_pharmacie_alertes" name="Alertes de péremption / rupture"
+              parent="menu_pharmacie_stock" action="action_pharmacie_lot_alertes"
+              sequence="30"/>
 
     <!-- Fournisseurs : Pharmacien et Gestionnaire uniquement -->
     <menuitem id="menu_pharmacie_fournisseurs" name="Fournisseurs"
@@ -66,4 +85,11 @@
     <menuitem id="menu_pharmacie_reappro" name="Réapprovisionnements"
               parent="menu_pharmacie_fournisseurs" action="action_pharmacie_reappro"
               sequence="20"/>
+
+    <!-- Rapports : Pharmacien et Gestionnaire uniquement.
+         Le wizard "Bilan de caisse" (ticket #45) ajoutera l'entrée
+         "Bilan de caisse" sous ce menu. -->
+    <menuitem id="menu_pharmacie_rapports" name="Rapports"
+              parent="menu_pharmacie_root" sequence="50"
+              groups="group_pharmacie_pharmacien"/>
 </odoo>
