@@ -29,6 +29,7 @@ Fonctionnalités :
         # 5. views/*.xml
         'views/res_partner_views.xml',
         'views/pharmacie_medicament_views.xml',
+        'views/pharmacie_lot_views.xml',
         'views/pharmacie_ordonnance_views.xml',
         'views/pharmacie_vente_views.xml',
         'views/pharmacie_reappro_views.xml',

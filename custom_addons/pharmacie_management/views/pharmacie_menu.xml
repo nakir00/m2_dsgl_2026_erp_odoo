@@ -21,6 +21,9 @@
     <menuitem id="menu_pharmacie_medicament" name="Médicaments"
               parent="menu_pharmacie_stock" action="action_pharmacie_medicament"
               sequence="10"/>
+    <menuitem id="menu_pharmacie_lot" name="Lots et stocks"
+              parent="menu_pharmacie_stock" action="action_pharmacie_lot"
+              sequence="20"/>
 
     <!-- Fournisseurs : Pharmacien et Gestionnaire uniquement -->
     <menuitem id="menu_pharmacie_fournisseurs" name="Fournisseurs"
