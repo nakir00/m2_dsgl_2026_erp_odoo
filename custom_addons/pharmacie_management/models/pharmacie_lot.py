@@ -30,8 +30,8 @@ class PharmacieLot(models.Model):
             ('epuise', "Épuisé"),
         ],
         string="Statut", compute='_compute_state', store=True)
-
-    # reappro_id sera ajouté lorsque pharmacie.reappro existera (ticket #26).
+    reappro_id = fields.Many2one(
+        'pharmacie.reappro', string="Réapprovisionnement d'origine", ondelete='set null')
 
     @api.model_create_multi
     def create(self, vals_list):

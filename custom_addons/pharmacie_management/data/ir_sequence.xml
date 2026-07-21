@@ -14,4 +14,12 @@
         <field name="padding">4</field>
         <field name="company_id" eval="False"/>
     </record>
+
+    <record id="seq_pharmacie_reappro" model="ir.sequence">
+        <field name="name">Référence de réapprovisionnement pharmacie</field>
+        <field name="code">pharmacie.reappro</field>
+        <field name="prefix">REAPPRO/%(year)s/</field>
+        <field name="padding">4</field>
+        <field name="company_id" eval="False"/>
+    </record>
 </odoo>
