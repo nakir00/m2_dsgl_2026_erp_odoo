@@ -28,6 +28,8 @@ class PharmacieVente(models.Model):
         string="Mode de paiement")
     date_vente = fields.Datetime(string="Date de vente", default=fields.Datetime.now)
     note = fields.Text(string="Note")
+    ligne_ids = fields.One2many(
+        'pharmacie.vente.ligne', 'vente_id', string="Lignes de vente")
 
     @api.model_create_multi
     def create(self, vals_list):

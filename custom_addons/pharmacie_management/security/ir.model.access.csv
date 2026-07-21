@@ -5,3 +5,4 @@ access_pharmacie_lot_user,pharmacie.lot.user,model_pharmacie_lot,base.group_user
 access_pharmacie_ordonnance_user,pharmacie.ordonnance.user,model_pharmacie_ordonnance,base.group_user,1,1,1,1
 access_pharmacie_posologie_user,pharmacie.posologie.user,model_pharmacie_posologie,base.group_user,1,1,1,1
 access_pharmacie_vente_user,pharmacie.vente.user,model_pharmacie_vente,base.group_user,1,1,1,1
+access_pharmacie_vente_ligne_user,pharmacie.vente.ligne.user,model_pharmacie_vente_ligne,base.group_user,1,1,1,1
