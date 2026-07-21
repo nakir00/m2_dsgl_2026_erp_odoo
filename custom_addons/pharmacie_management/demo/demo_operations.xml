@@ -3,9 +3,9 @@
     <record id="demo_lot_doliprane" model="pharmacie.lot">
         <field name="medicament_id" ref="demo_medicament_doliprane"/>
         <field name="date_fabrication"
-               eval="(datetime.datetime.today() - relativedelta(months=6)).strftime('%Y-%m-%d')"/>
+               eval="(datetime.today() - relativedelta(months=6)).strftime('%Y-%m-%d')"/>
         <field name="date_peremption"
-               eval="(datetime.datetime.today() + relativedelta(months=18)).strftime('%Y-%m-%d')"/>
+               eval="(datetime.today() + relativedelta(months=18)).strftime('%Y-%m-%d')"/>
         <field name="quantite_initiale">200</field>
         <field name="quantite_restante">200</field>
         <field name="prix_achat_lot">400</field>
@@ -14,9 +14,9 @@
     <record id="demo_lot_amoxil" model="pharmacie.lot">
         <field name="medicament_id" ref="demo_medicament_amoxil"/>
         <field name="date_fabrication"
-               eval="(datetime.datetime.today() - relativedelta(months=4)).strftime('%Y-%m-%d')"/>
+               eval="(datetime.today() - relativedelta(months=4)).strftime('%Y-%m-%d')"/>
         <field name="date_peremption"
-               eval="(datetime.datetime.today() + relativedelta(days=20)).strftime('%Y-%m-%d')"/>
+               eval="(datetime.today() + relativedelta(days=20)).strftime('%Y-%m-%d')"/>
         <field name="quantite_initiale">100</field>
         <field name="quantite_restante">100</field>
         <field name="prix_achat_lot">1200</field>
@@ -25,9 +25,9 @@
     <record id="demo_lot_coartem" model="pharmacie.lot">
         <field name="medicament_id" ref="demo_medicament_coartem"/>
         <field name="date_fabrication"
-               eval="(datetime.datetime.today() - relativedelta(months=3)).strftime('%Y-%m-%d')"/>
+               eval="(datetime.today() - relativedelta(months=3)).strftime('%Y-%m-%d')"/>
         <field name="date_peremption"
-               eval="(datetime.datetime.today() + relativedelta(days=60)).strftime('%Y-%m-%d')"/>
+               eval="(datetime.today() + relativedelta(days=60)).strftime('%Y-%m-%d')"/>
         <field name="quantite_initiale">150</field>
         <field name="quantite_restante">150</field>
         <field name="prix_achat_lot">1800</field>
@@ -36,9 +36,9 @@
     <record id="demo_lot_efferalgan" model="pharmacie.lot">
         <field name="medicament_id" ref="demo_medicament_efferalgan"/>
         <field name="date_fabrication"
-               eval="(datetime.datetime.today() - relativedelta(months=2)).strftime('%Y-%m-%d')"/>
+               eval="(datetime.today() - relativedelta(months=2)).strftime('%Y-%m-%d')"/>
         <field name="date_peremption"
-               eval="(datetime.datetime.today() + relativedelta(months=12)).strftime('%Y-%m-%d')"/>
+               eval="(datetime.today() + relativedelta(months=12)).strftime('%Y-%m-%d')"/>
         <field name="quantite_initiale">80</field>
         <field name="quantite_restante">80</field>
         <field name="prix_achat_lot">900</field>
@@ -47,9 +47,9 @@
     <record id="demo_lot_nivaquine" model="pharmacie.lot">
         <field name="medicament_id" ref="demo_medicament_nivaquine"/>
         <field name="date_fabrication"
-               eval="(datetime.datetime.today() - relativedelta(months=8)).strftime('%Y-%m-%d')"/>
+               eval="(datetime.today() - relativedelta(months=8)).strftime('%Y-%m-%d')"/>
         <field name="date_peremption"
-               eval="(datetime.datetime.today() + relativedelta(months=10)).strftime('%Y-%m-%d')"/>
+               eval="(datetime.today() + relativedelta(months=10)).strftime('%Y-%m-%d')"/>
         <field name="quantite_initiale">120</field>
         <field name="quantite_restante">120</field>
         <field name="prix_achat_lot">700</field>
@@ -58,9 +58,9 @@
     <record id="demo_lot_xanax" model="pharmacie.lot">
         <field name="medicament_id" ref="demo_medicament_xanax"/>
         <field name="date_fabrication"
-               eval="(datetime.datetime.today() - relativedelta(months=1)).strftime('%Y-%m-%d')"/>
+               eval="(datetime.today() - relativedelta(months=1)).strftime('%Y-%m-%d')"/>
         <field name="date_peremption"
-               eval="(datetime.datetime.today() + relativedelta(months=24)).strftime('%Y-%m-%d')"/>
+               eval="(datetime.today() + relativedelta(months=24)).strftime('%Y-%m-%d')"/>
         <field name="quantite_initiale">60</field>
         <field name="quantite_restante">60</field>
         <field name="prix_achat_lot">2000</field>
@@ -69,9 +69,9 @@
     <record id="demo_lot_aspegic" model="pharmacie.lot">
         <field name="medicament_id" ref="demo_medicament_aspegic"/>
         <field name="date_fabrication"
-               eval="(datetime.datetime.today() - relativedelta(months=2)).strftime('%Y-%m-%d')"/>
+               eval="(datetime.today() - relativedelta(months=2)).strftime('%Y-%m-%d')"/>
         <field name="date_peremption"
-               eval="(datetime.datetime.today() + relativedelta(months=15)).strftime('%Y-%m-%d')"/>
+               eval="(datetime.today() + relativedelta(months=15)).strftime('%Y-%m-%d')"/>
         <field name="quantite_initiale">90</field>
         <field name="quantite_restante">90</field>
         <field name="prix_achat_lot">1500</field>
@@ -85,7 +85,7 @@
         <field name="medecin_nom">Dr. Moussa Fall</field>
         <field name="structure_sante">Hôpital Principal de Dakar</field>
         <field name="date_prescription"
-               eval="(datetime.datetime.today() - relativedelta(days=5)).strftime('%Y-%m-%d')"/>
+               eval="(datetime.today() - relativedelta(days=5)).strftime('%Y-%m-%d')"/>
         <field name="medicament_ids" eval="[(6, 0, [ref('demo_medicament_amoxil')])]"/>
         <field name="posologie_ids" eval="[(0, 0, {
             'medicament_id': ref('demo_medicament_amoxil'),
@@ -100,7 +100,7 @@
         <field name="medecin_nom">Dr. Fatou Sarr</field>
         <field name="structure_sante">Clinique Pasteur</field>
         <field name="date_prescription"
-               eval="(datetime.datetime.today() - relativedelta(days=2)).strftime('%Y-%m-%d')"/>
+               eval="(datetime.today() - relativedelta(days=2)).strftime('%Y-%m-%d')"/>
         <field name="medicament_ids" eval="[(6, 0, [ref('demo_medicament_coartem')])]"/>
         <field name="posologie_ids" eval="[(0, 0, {
             'medicament_id': ref('demo_medicament_coartem'),
@@ -115,7 +115,7 @@
         <field name="medecin_nom">Dr. Ousmane Diallo</field>
         <field name="structure_sante">Centre de Santé de Grand Yoff</field>
         <field name="date_prescription"
-               eval="(datetime.datetime.today() - relativedelta(days=1)).strftime('%Y-%m-%d')"/>
+               eval="(datetime.today() - relativedelta(days=1)).strftime('%Y-%m-%d')"/>
         <field name="medicament_ids" eval="[(6, 0, [ref('demo_medicament_xanax')])]"/>
         <field name="posologie_ids" eval="[(0, 0, {
             'medicament_id': ref('demo_medicament_xanax'),
