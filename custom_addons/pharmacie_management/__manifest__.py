@@ -41,6 +41,7 @@ Fonctionnalités :
         'report/ticket_caisse_report.xml',
         'report/inventaire_stock_report.xml',
         'report/bilan_caisse_report.xml',
+        'report/bon_commande_report.xml',
     ],
     'demo': [],
     'application': True,

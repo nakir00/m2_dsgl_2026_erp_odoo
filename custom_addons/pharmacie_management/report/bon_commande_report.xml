@@ -1,0 +1,79 @@
+<odoo>
+    <template id="report_bon_commande">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <h2>Bon de commande fournisseur</h2>
+                        <p>
+                            Référence : <span t-field="doc.reference"/><br/>
+                            Date de commande : <span t-field="doc.date_commande"/><br/>
+                            Date de livraison prévue : <span t-field="doc.date_livraison_prevue"/>
+                        </p>
+                        <div class="row">
+                            <div class="col-6">
+                                <strong>Fournisseur</strong><br/>
+                                <span t-field="doc.fournisseur_id.name"/><br/>
+                                <span t-field="doc.fournisseur_id.street"/><br/>
+                                <span t-field="doc.fournisseur_id.city"/><br/>
+                                <span t-field="doc.fournisseur_id.phone"/><br/>
+                                <t t-if="doc.fournisseur_id.numero_agrement">
+                                    N° agrément DPM :
+                                    <span t-field="doc.fournisseur_id.numero_agrement"/>
+                                </t>
+                            </div>
+                        </div>
+                        <table class="table table-sm">
+                            <thead>
+                                <tr>
+                                    <th>Référence</th>
+                                    <th>DCI</th>
+                                    <th>Conditionnement</th>
+                                    <th class="text-end">Quantité</th>
+                                    <th class="text-end">PU</th>
+                                    <th class="text-end">Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr t-foreach="doc.ligne_ids" t-as="ligne">
+                                    <td><span t-field="ligne.medicament_id.nom_commercial"/></td>
+                                    <td><span t-field="ligne.medicament_id.dci"/></td>
+                                    <td><span t-field="ligne.medicament_id.conditionnement"/></td>
+                                    <td class="text-end"><span t-field="ligne.quantite"/></td>
+                                    <td class="text-end"><span t-field="ligne.prix_unitaire"/></td>
+                                    <td class="text-end"><span t-field="ligne.montant"/></td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td colspan="5" class="text-end">
+                                        <strong>Montant total</strong>
+                                    </td>
+                                    <td class="text-end">
+                                        <strong><span t-field="doc.montant_total"/></strong>
+                                    </td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                        <p class="text-muted" style="font-size: 10px; margin-top: 40px;">
+                            Ce bon de commande est émis sous réserve de disponibilité des
+                            produits chez le fournisseur. Les médicaments livrés doivent être
+                            conformes à la réglementation en vigueur de la Direction de la
+                            Pharmacie et du Médicament (DPM) du Sénégal.
+                        </p>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+    <record id="action_report_bon_commande" model="ir.actions.report">
+        <field name="name">Bon de commande fournisseur</field>
+        <field name="model">pharmacie.reappro</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">pharmacie_management.report_bon_commande</field>
+        <field name="report_file">pharmacie_management.report_bon_commande</field>
+        <field name="binding_model_id" ref="model_pharmacie_reappro"/>
+        <field name="binding_type">report</field>
+    </record>
+</odoo>
