@@ -1,6 +1,16 @@
 <odoo>
     <menuitem id="menu_pharmacie_root" name="Pharmacie" sequence="10"/>
 
+    <!-- Caisse : accessible à tous les profils -->
+    <menuitem id="menu_pharmacie_caisse" name="Caisse"
+              parent="menu_pharmacie_root" sequence="10"/>
+    <menuitem id="menu_pharmacie_vente_nouvelle" name="Nouvelle vente"
+              parent="menu_pharmacie_caisse" action="action_pharmacie_vente_nouvelle"
+              sequence="10"/>
+    <menuitem id="menu_pharmacie_vente_historique" name="Historique des ventes"
+              parent="menu_pharmacie_caisse" action="action_pharmacie_vente"
+              sequence="20"/>
+
     <!-- Configuration : Pharmacien et Gestionnaire uniquement -->
     <menuitem id="menu_pharmacie_configuration" name="Configuration"
               parent="menu_pharmacie_root" sequence="90"
