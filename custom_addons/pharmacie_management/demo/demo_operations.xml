@@ -1,0 +1,196 @@
+<odoo>
+    <!-- Lots de stock de démonstration (numero_lot généré automatiquement) -->
+    <record id="demo_lot_doliprane" model="pharmacie.lot">
+        <field name="medicament_id" ref="demo_medicament_doliprane"/>
+        <field name="date_fabrication"
+               eval="(datetime.datetime.today() - relativedelta(months=6)).strftime('%Y-%m-%d')"/>
+        <field name="date_peremption"
+               eval="(datetime.datetime.today() + relativedelta(months=18)).strftime('%Y-%m-%d')"/>
+        <field name="quantite_initiale">200</field>
+        <field name="quantite_restante">200</field>
+        <field name="prix_achat_lot">400</field>
+    </record>
+
+    <record id="demo_lot_amoxil" model="pharmacie.lot">
+        <field name="medicament_id" ref="demo_medicament_amoxil"/>
+        <field name="date_fabrication"
+               eval="(datetime.datetime.today() - relativedelta(months=4)).strftime('%Y-%m-%d')"/>
+        <field name="date_peremption"
+               eval="(datetime.datetime.today() + relativedelta(days=20)).strftime('%Y-%m-%d')"/>
+        <field name="quantite_initiale">100</field>
+        <field name="quantite_restante">100</field>
+        <field name="prix_achat_lot">1200</field>
+    </record>
+
+    <record id="demo_lot_coartem" model="pharmacie.lot">
+        <field name="medicament_id" ref="demo_medicament_coartem"/>
+        <field name="date_fabrication"
+               eval="(datetime.datetime.today() - relativedelta(months=3)).strftime('%Y-%m-%d')"/>
+        <field name="date_peremption"
+               eval="(datetime.datetime.today() + relativedelta(days=60)).strftime('%Y-%m-%d')"/>
+        <field name="quantite_initiale">150</field>
+        <field name="quantite_restante">150</field>
+        <field name="prix_achat_lot">1800</field>
+    </record>
+
+    <record id="demo_lot_efferalgan" model="pharmacie.lot">
+        <field name="medicament_id" ref="demo_medicament_efferalgan"/>
+        <field name="date_fabrication"
+               eval="(datetime.datetime.today() - relativedelta(months=2)).strftime('%Y-%m-%d')"/>
+        <field name="date_peremption"
+               eval="(datetime.datetime.today() + relativedelta(months=12)).strftime('%Y-%m-%d')"/>
+        <field name="quantite_initiale">80</field>
+        <field name="quantite_restante">80</field>
+        <field name="prix_achat_lot">900</field>
+    </record>
+
+    <record id="demo_lot_nivaquine" model="pharmacie.lot">
+        <field name="medicament_id" ref="demo_medicament_nivaquine"/>
+        <field name="date_fabrication"
+               eval="(datetime.datetime.today() - relativedelta(months=8)).strftime('%Y-%m-%d')"/>
+        <field name="date_peremption"
+               eval="(datetime.datetime.today() + relativedelta(months=10)).strftime('%Y-%m-%d')"/>
+        <field name="quantite_initiale">120</field>
+        <field name="quantite_restante">120</field>
+        <field name="prix_achat_lot">700</field>
+    </record>
+
+    <record id="demo_lot_xanax" model="pharmacie.lot">
+        <field name="medicament_id" ref="demo_medicament_xanax"/>
+        <field name="date_fabrication"
+               eval="(datetime.datetime.today() - relativedelta(months=1)).strftime('%Y-%m-%d')"/>
+        <field name="date_peremption"
+               eval="(datetime.datetime.today() + relativedelta(months=24)).strftime('%Y-%m-%d')"/>
+        <field name="quantite_initiale">60</field>
+        <field name="quantite_restante">60</field>
+        <field name="prix_achat_lot">2000</field>
+    </record>
+
+    <record id="demo_lot_aspegic" model="pharmacie.lot">
+        <field name="medicament_id" ref="demo_medicament_aspegic"/>
+        <field name="date_fabrication"
+               eval="(datetime.datetime.today() - relativedelta(months=2)).strftime('%Y-%m-%d')"/>
+        <field name="date_peremption"
+               eval="(datetime.datetime.today() + relativedelta(months=15)).strftime('%Y-%m-%d')"/>
+        <field name="quantite_initiale">90</field>
+        <field name="quantite_restante">90</field>
+        <field name="prix_achat_lot">1500</field>
+    </record>
+
+    <!-- Ordonnances de démonstration pour les médicaments sur_ordonnance -->
+    <record id="demo_ordonnance_1" model="pharmacie.ordonnance">
+        <field name="patient_nom">Awa Diop</field>
+        <field name="patient_age">34</field>
+        <field name="patient_genre">f</field>
+        <field name="medecin_nom">Dr. Moussa Fall</field>
+        <field name="structure_sante">Hôpital Principal de Dakar</field>
+        <field name="date_prescription"
+               eval="(datetime.datetime.today() - relativedelta(days=5)).strftime('%Y-%m-%d')"/>
+        <field name="medicament_ids" eval="[(6, 0, [ref('demo_medicament_amoxil')])]"/>
+        <field name="posologie_ids" eval="[(0, 0, {
+            'medicament_id': ref('demo_medicament_amoxil'),
+            'instructions': '1 gélule matin et soir pendant 7 jours',
+        })]"/>
+    </record>
+
+    <record id="demo_ordonnance_2" model="pharmacie.ordonnance">
+        <field name="patient_nom">Ibrahima Ndiaye</field>
+        <field name="patient_age">52</field>
+        <field name="patient_genre">m</field>
+        <field name="medecin_nom">Dr. Fatou Sarr</field>
+        <field name="structure_sante">Clinique Pasteur</field>
+        <field name="date_prescription"
+               eval="(datetime.datetime.today() - relativedelta(days=2)).strftime('%Y-%m-%d')"/>
+        <field name="medicament_ids" eval="[(6, 0, [ref('demo_medicament_coartem')])]"/>
+        <field name="posologie_ids" eval="[(0, 0, {
+            'medicament_id': ref('demo_medicament_coartem'),
+            'instructions': '4 comprimés à H0 et H8, puis 4 comprimés matin et soir pendant 2 jours',
+        })]"/>
+    </record>
+
+    <record id="demo_ordonnance_3" model="pharmacie.ordonnance">
+        <field name="patient_nom">Mariama Ba</field>
+        <field name="patient_age">45</field>
+        <field name="patient_genre">f</field>
+        <field name="medecin_nom">Dr. Ousmane Diallo</field>
+        <field name="structure_sante">Centre de Santé de Grand Yoff</field>
+        <field name="date_prescription"
+               eval="(datetime.datetime.today() - relativedelta(days=1)).strftime('%Y-%m-%d')"/>
+        <field name="medicament_ids" eval="[(6, 0, [ref('demo_medicament_xanax')])]"/>
+        <field name="posologie_ids" eval="[(0, 0, {
+            'medicament_id': ref('demo_medicament_xanax'),
+            'instructions': '1 comprimé le soir au coucher, ne pas dépasser 4 semaines',
+        })]"/>
+    </record>
+
+    <!-- Ventes de démonstration (référence générée automatiquement) -->
+    <record id="demo_vente_1" model="pharmacie.vente">
+        <field name="vendeur_id" ref="base.user_demo"/>
+        <field name="ordonnance_id" ref="demo_ordonnance_1"/>
+        <field name="mode_paiement">especes</field>
+        <field name="ligne_ids" eval="[(0, 0, {
+            'medicament_id': ref('demo_medicament_amoxil'),
+            'quantite': 2,
+            'prix_unitaire': 1800,
+        })]"/>
+    </record>
+
+    <record id="demo_vente_2" model="pharmacie.vente">
+        <field name="vendeur_id" ref="base.user_admin"/>
+        <field name="mode_paiement">wave</field>
+        <field name="ligne_ids" eval="[
+            (0, 0, {'medicament_id': ref('demo_medicament_doliprane'), 'quantite': 3, 'prix_unitaire': 600}),
+            (0, 0, {'medicament_id': ref('demo_medicament_efferalgan'), 'quantite': 1, 'prix_unitaire': 1400}),
+        ]"/>
+    </record>
+
+    <record id="demo_vente_3" model="pharmacie.vente">
+        <field name="vendeur_id" ref="base.user_demo"/>
+        <field name="ordonnance_id" ref="demo_ordonnance_2"/>
+        <field name="mode_paiement">carte</field>
+        <field name="ligne_ids" eval="[(0, 0, {
+            'medicament_id': ref('demo_medicament_coartem'),
+            'quantite': 1,
+            'prix_unitaire': 2700,
+        })]"/>
+    </record>
+
+    <record id="demo_vente_4" model="pharmacie.vente">
+        <field name="vendeur_id" ref="base.user_admin"/>
+        <field name="mode_paiement">orange_money</field>
+        <field name="ligne_ids" eval="[(0, 0, {
+            'medicament_id': ref('demo_medicament_aspegic'),
+            'quantite': 2,
+            'prix_unitaire': 2200,
+        })]"/>
+    </record>
+
+    <record id="demo_vente_5" model="pharmacie.vente">
+        <field name="vendeur_id" ref="base.user_demo"/>
+        <field name="ordonnance_id" ref="demo_ordonnance_3"/>
+        <field name="mode_paiement">especes</field>
+        <field name="ligne_ids" eval="[(0, 0, {
+            'medicament_id': ref('demo_medicament_xanax'),
+            'quantite': 1,
+            'prix_unitaire': 3200,
+        })]"/>
+    </record>
+
+    <!-- Confirmation des ventes : exécute la vraie logique métier
+         (vérification ordonnance, décrémentation FEFO des lots). -->
+    <function model="pharmacie.vente" name="action_confirmer">
+        <value eval="[ref('demo_vente_1')]"/>
+    </function>
+    <function model="pharmacie.vente" name="action_confirmer">
+        <value eval="[ref('demo_vente_2')]"/>
+    </function>
+    <function model="pharmacie.vente" name="action_confirmer">
+        <value eval="[ref('demo_vente_3')]"/>
+    </function>
+    <function model="pharmacie.vente" name="action_confirmer">
+        <value eval="[ref('demo_vente_4')]"/>
+    </function>
+    <function model="pharmacie.vente" name="action_confirmer">
+        <value eval="[ref('demo_vente_5')]"/>
+    </function>
+</odoo>
