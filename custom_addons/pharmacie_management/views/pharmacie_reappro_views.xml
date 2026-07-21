@@ -1,0 +1,42 @@
+<odoo>
+    <record id="view_pharmacie_reappro_form" model="ir.ui.view">
+        <field name="name">pharmacie.reappro.form</field>
+        <field name="model">pharmacie.reappro</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <field name="state" widget="statusbar"
+                           statusbar_visible="brouillon,commandee,recue_partiellement,recue"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="reference"/>
+                            <field name="fournisseur_id"/>
+                        </group>
+                        <group>
+                            <field name="date_commande"/>
+                            <field name="date_reception_prevue"/>
+                            <field name="montant_total"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Lignes" name="lignes">
+                            <field name="ligne_ids">
+                                <list editable="bottom">
+                                    <field name="medicament_id"/>
+                                    <field name="quantite"/>
+                                    <field name="prix_unitaire"/>
+                                    <field name="montant"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                    <group>
+                        <field name="note"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+</odoo>

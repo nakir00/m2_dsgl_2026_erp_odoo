@@ -24,7 +24,16 @@ class PharmacieReappro(models.Model):
     ligne_ids = fields.One2many(
         'pharmacie.reappro.ligne', 'reappro_id', string="Lignes")
 
-    # montant_total sera ajouté au ticket #28.
+    currency_id = fields.Many2one(
+        'res.currency', string="Devise",
+        default=lambda self: self.env.company.currency_id)
+    montant_total = fields.Monetary(
+        string="Montant total", compute='_compute_montant_total', store=True)
+
+    @api.depends('ligne_ids.montant')
+    def _compute_montant_total(self):
+        for reappro in self:
+            reappro.montant_total = sum(reappro.ligne_ids.mapped('montant'))
 
     @api.model_create_multi
     def create(self, vals_list):
