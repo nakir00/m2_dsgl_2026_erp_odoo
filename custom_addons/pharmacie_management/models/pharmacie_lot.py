@@ -21,6 +21,8 @@ class PharmacieLot(models.Model):
         'res.currency', string="Devise",
         default=lambda self: self.env.company.currency_id)
     prix_achat_unitaire = fields.Monetary(string="Prix d'achat unitaire")
+    jours_avant_peremption = fields.Integer(
+        string="Jours avant péremption", compute='_compute_jours_avant_peremption')
 
     # reappro_id sera ajouté lorsque pharmacie.reappro existera (ticket #26).
 
@@ -38,3 +40,10 @@ class PharmacieLot(models.Model):
                     and rec.date_peremption <= rec.date_fabrication):
                 raise ValidationError(
                     _("La date de péremption doit être postérieure à la date de fabrication."))
+
+    @api.depends('date_peremption')
+    def _compute_jours_avant_peremption(self):
+        today = fields.Date.context_today(self)
+        for rec in self:
+            rec.jours_avant_peremption = (
+                (rec.date_peremption - today).days if rec.date_peremption else 0)
