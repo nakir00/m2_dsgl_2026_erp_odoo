@@ -14,7 +14,7 @@
                     <field name="panier_moyen"/>
                 </group>
                 <field name="ligne_vendeur_ids" string="Chiffre d'affaires par vendeur">
-                    <list editable="false">
+                    <list>
                         <field name="vendeur_id"/>
                         <field name="nombre_ventes"/>
                         <field name="ca"/>
