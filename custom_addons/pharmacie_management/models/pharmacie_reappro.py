@@ -41,3 +41,18 @@ class PharmacieReappro(models.Model):
             if not vals.get('reference'):
                 vals['reference'] = self.env['ir.sequence'].next_by_code('pharmacie.reappro')
         return super().create(vals_list)
+
+    def action_receptionner(self):
+        for reappro in self:
+            if reappro.state == 'recue':
+                continue
+            for line in reappro.ligne_ids:
+                self.env['pharmacie.lot'].create({
+                    'medicament_id': line.medicament_id.id,
+                    'quantite_initiale': line.quantite,
+                    'quantite_actuelle': line.quantite,
+                    'prix_achat_unitaire': line.prix_unitaire,
+                    'date_reception': fields.Date.context_today(self),
+                    'reappro_id': reappro.id,
+                })
+            reappro.state = 'recue'

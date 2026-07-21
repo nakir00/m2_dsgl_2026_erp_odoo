@@ -5,6 +5,8 @@
         <field name="arch" type="xml">
             <form>
                 <header>
+                    <button name="action_receptionner" string="Réceptionner" type="object"
+                            class="btn-primary" invisible="state == 'recue'"/>
                     <field name="state" widget="statusbar"
                            statusbar_visible="brouillon,commandee,recue_partiellement,recue"/>
                 </header>
