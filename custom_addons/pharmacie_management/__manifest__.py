@@ -28,6 +28,7 @@ Fonctionnalités :
         'views/res_partner_views.xml',
         'views/pharmacie_medicament_views.xml',
         'views/pharmacie_ordonnance_views.xml',
+        'views/pharmacie_vente_views.xml',
         # 6. wizards/*.xml
         # 7. reports/*.xml
     ],

@@ -1,0 +1,51 @@
+<odoo>
+    <record id="view_pharmacie_vente_form" model="ir.ui.view">
+        <field name="name">pharmacie.vente.form</field>
+        <field name="model">pharmacie.vente</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_confirmer" string="Confirmer" type="object"
+                            class="btn-primary" invisible="state != 'brouillon'"/>
+                    <field name="state" widget="statusbar"
+                           statusbar_visible="brouillon,confirmee"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="reference"/>
+                            <field name="client_id"/>
+                            <field name="vendeur_id"/>
+                            <field name="ordonnance_id"/>
+                        </group>
+                        <group>
+                            <field name="date_vente"/>
+                            <field name="paiement"/>
+                            <field name="montant_ht"/>
+                            <field name="montant_tva"/>
+                            <field name="montant_ttc"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Lignes de vente" name="lignes">
+                            <field name="ligne_ids">
+                                <list editable="bottom">
+                                    <field name="medicament_id"/>
+                                    <field name="quantite"/>
+                                    <field name="prix_unitaire"/>
+                                    <field name="lot_id" readonly="1"/>
+                                    <field name="montant_ht"/>
+                                    <field name="montant_tva"/>
+                                    <field name="montant_ttc"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                    <group>
+                        <field name="note"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+</odoo>

@@ -1,4 +1,5 @@
-from odoo import api, fields, models
+from odoo import _, api, fields, models
+from odoo.exceptions import UserError
 
 
 class PharmacieVente(models.Model):
@@ -62,3 +63,33 @@ class PharmacieVente(models.Model):
                 if vente.ordonnance_id:
                     vente.ordonnance_id.state = 'delivree'
         return result
+
+    def action_confirmer(self):
+        for vente in self:
+            if vente.state != 'brouillon':
+                continue
+            for line in vente.ligne_ids:
+                restant = line.quantite
+                lots = self.env['pharmacie.lot'].search([
+                    ('medicament_id', '=', line.medicament_id.id),
+                    ('state', '=', 'valide'),
+                    ('quantite_actuelle', '>', 0),
+                ], order='date_peremption asc')
+                if sum(lots.mapped('quantite_actuelle')) < restant:
+                    raise UserError(_(
+                        "Stock insuffisant pour %(medicament)s : disponible %(dispo).2f, "
+                        "demandé %(demande).2f."
+                    ) % {
+                        'medicament': line.medicament_id.name,
+                        'dispo': sum(lots.mapped('quantite_actuelle')),
+                        'demande': restant,
+                    })
+                if lots:
+                    line.lot_id = lots[0].id
+                for lot in lots:
+                    if restant <= 0:
+                        break
+                    prelevement = min(lot.quantite_actuelle, restant)
+                    lot.quantite_actuelle -= prelevement
+                    restant -= prelevement
+            vente.state = 'confirmee'
