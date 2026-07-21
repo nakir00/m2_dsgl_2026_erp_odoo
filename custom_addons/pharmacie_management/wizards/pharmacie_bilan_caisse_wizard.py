@@ -18,7 +18,8 @@ class PharmacieBilanCaisseWizard(models.TransientModel):
         string="Panier moyen", compute='_compute_bilan')
     ligne_vendeur_ids = fields.One2many(
         'pharmacie.bilan.caisse.wizard.ligne', 'wizard_id',
-        string="Chiffre d'affaires par vendeur", compute='_compute_bilan', store=True)
+        string="Chiffre d'affaires par vendeur", compute='_compute_bilan', store=True,
+        compute_sudo=False)
 
     @api.depends('date_debut', 'date_fin')
     def _compute_bilan(self):
