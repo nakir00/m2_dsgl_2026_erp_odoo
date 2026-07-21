@@ -377,14 +377,15 @@ def _compute_prix_ttc(self):
         <field name="name">Gestionnaire</field>
         <field name="category_id" ref="module_category_pharmacie"/>
         <field name="implied_ids" eval="[(4, ref('group_pharmacie_pharmacien'))]"/>
-        <field name="user_ids" eval="[(4, ref('base.user_admin'))]"/>
+        <field name="users" eval="[(4, ref('base.user_admin'))]"/>
     </record>
 </odoo>
 ```
 
 - `implied_ids` en chaîne linéaire dans la même catégorie → affiché comme **liste déroulante** sur la fiche utilisateur (vendeur < pharmacien < gestionnaire).
 - Les droits sont **cumulatifs** : on ne peut jamais retirer un droit via un groupe, seulement en ajouter.
-- Assigner l'admin au groupe le plus élevé (`user_ids`), sinon même l'admin ne voit pas les menus.
+- Assigner l'admin au groupe le plus élevé (`users`), sinon même l'admin ne voit pas les menus.
+- ⚠️ **Erreur confirmée par un crash d'installation réel** : le champ Many2many des utilisateurs sur `res.groups` s'appelle `users`, **pas** `user_ids`. `<field name="user_ids" .../>` lève `ValueError: Invalid field 'user_ids' on model 'res.groups'` au chargement.
 
 ### ACL (`security/ir.model.access.csv`)
 
