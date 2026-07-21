@@ -19,6 +19,7 @@ Fonctionnalités :
     'data': [
         # Ordre de chargement à respecter au fur et à mesure des tickets :
         # 1. security/groups.xml
+        'security/pharmacie_security.xml',
         # 2. security/ir.model.access.csv
         'security/ir.model.access.csv',
         # 3. security/record_rules.xml
