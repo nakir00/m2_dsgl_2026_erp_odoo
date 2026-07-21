@@ -1,0 +1,75 @@
+<odoo>
+    <!-- Fournisseurs pharmaceutiques de démonstration -->
+    <record id="demo_fournisseur_dakar" model="res.partner">
+        <field name="name">Sénégal Pharma Distribution</field>
+        <field name="is_company">True</field>
+        <field name="is_fournisseur_pharma">True</field>
+        <field name="numero_agrement">DPM-SN-2024-0112</field>
+        <field name="delai_livraison_moyen">3</field>
+        <field name="street">Zone Industrielle, Route de Rufisque</field>
+        <field name="city">Dakar</field>
+        <field name="phone">+221 33 832 45 67</field>
+        <field name="email">contact@senegalpharma.example</field>
+    </record>
+
+    <record id="demo_fournisseur_teranga" model="res.partner">
+        <field name="name">Labo Teranga</field>
+        <field name="is_company">True</field>
+        <field name="is_fournisseur_pharma">True</field>
+        <field name="numero_agrement">DPM-SN-2023-0087</field>
+        <field name="delai_livraison_moyen">5</field>
+        <field name="street">Avenue Cheikh Anta Diop</field>
+        <field name="city">Dakar</field>
+        <field name="phone">+221 33 825 11 22</field>
+        <field name="email">contact@laboteranga.example</field>
+    </record>
+
+    <record id="demo_fournisseur_thies" model="res.partner">
+        <field name="name">Officinal Grossiste Thiès</field>
+        <field name="is_company">True</field>
+        <field name="is_fournisseur_pharma">True</field>
+        <field name="numero_agrement">DPM-SN-2024-0203</field>
+        <field name="delai_livraison_moyen">4</field>
+        <field name="street">Route de Dakar</field>
+        <field name="city">Thiès</field>
+        <field name="phone">+221 33 951 33 44</field>
+        <field name="email">contact@officinalthies.example</field>
+    </record>
+
+    <!-- Rattachement des médicaments de démonstration (#50) à leur fournisseur habituel -->
+    <record id="demo_medicament_doliprane" model="pharmacie.medicament">
+        <field name="fournisseur_id" ref="demo_fournisseur_dakar"/>
+    </record>
+    <record id="demo_medicament_efferalgan" model="pharmacie.medicament">
+        <field name="fournisseur_id" ref="demo_fournisseur_dakar"/>
+    </record>
+    <record id="demo_medicament_aspegic" model="pharmacie.medicament">
+        <field name="fournisseur_id" ref="demo_fournisseur_dakar"/>
+    </record>
+    <record id="demo_medicament_nivaquine" model="pharmacie.medicament">
+        <field name="fournisseur_id" ref="demo_fournisseur_dakar"/>
+    </record>
+    <record id="demo_medicament_coartem" model="pharmacie.medicament">
+        <field name="fournisseur_id" ref="demo_fournisseur_dakar"/>
+    </record>
+
+    <record id="demo_medicament_amoxil" model="pharmacie.medicament">
+        <field name="fournisseur_id" ref="demo_fournisseur_teranga"/>
+    </record>
+    <record id="demo_medicament_augmentin" model="pharmacie.medicament">
+        <field name="fournisseur_id" ref="demo_fournisseur_teranga"/>
+    </record>
+    <record id="demo_medicament_flagyl" model="pharmacie.medicament">
+        <field name="fournisseur_id" ref="demo_fournisseur_teranga"/>
+    </record>
+
+    <record id="demo_medicament_ventoline" model="pharmacie.medicament">
+        <field name="fournisseur_id" ref="demo_fournisseur_thies"/>
+    </record>
+    <record id="demo_medicament_spasfon" model="pharmacie.medicament">
+        <field name="fournisseur_id" ref="demo_fournisseur_thies"/>
+    </record>
+    <record id="demo_medicament_xanax" model="pharmacie.medicament">
+        <field name="fournisseur_id" ref="demo_fournisseur_thies"/>
+    </record>
+</odoo>

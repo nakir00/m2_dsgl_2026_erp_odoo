@@ -45,6 +45,7 @@ Fonctionnalités :
     ],
     'demo': [
         'demo/demo_medicaments.xml',
+        'demo/demo_fournisseurs.xml',
     ],
     'application': True,
     'installable': True,
