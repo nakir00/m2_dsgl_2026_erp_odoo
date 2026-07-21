@@ -11,15 +11,18 @@ class PharmacieBilanCaisseWizard(models.TransientModel):
         string="Date de fin", required=True, default=fields.Date.context_today)
 
     ca_total = fields.Float(
-        string="Chiffre d'affaires total", compute='_compute_bilan')
+        string="Chiffre d'affaires total", compute='_compute_bilan',
+        store=True, compute_sudo=False)
     nombre_ventes = fields.Integer(
-        string="Nombre de ventes", compute='_compute_bilan')
+        string="Nombre de ventes", compute='_compute_bilan',
+        store=True, compute_sudo=False)
     panier_moyen = fields.Float(
-        string="Panier moyen", compute='_compute_bilan')
+        string="Panier moyen", compute='_compute_bilan',
+        store=True, compute_sudo=False)
     ligne_vendeur_ids = fields.One2many(
         'pharmacie.bilan.caisse.wizard.ligne', 'wizard_id',
-        string="Chiffre d'affaires par vendeur", compute='_compute_bilan', store=True,
-        compute_sudo=False)
+        string="Chiffre d'affaires par vendeur", compute='_compute_bilan',
+        store=True, compute_sudo=False)
 
     @api.depends('date_debut', 'date_fin')
     def _compute_bilan(self):
