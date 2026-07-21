@@ -1,0 +1,60 @@
+<odoo>
+    <template id="report_bilan_caisse">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <h2>Bilan de caisse</h2>
+                        <p>
+                            Période : du <span t-field="doc.date_debut"/>
+                            au <span t-field="doc.date_fin"/>
+                        </p>
+                        <table class="table table-sm">
+                            <tr>
+                                <td>Nombre de ventes</td>
+                                <td class="text-end"><span t-field="doc.nombre_ventes"/></td>
+                            </tr>
+                            <tr>
+                                <td>Chiffre d'affaires total</td>
+                                <td class="text-end"><span t-field="doc.ca_total"/></td>
+                            </tr>
+                            <tr>
+                                <td>Panier moyen</td>
+                                <td class="text-end"><span t-field="doc.panier_moyen"/></td>
+                            </tr>
+                        </table>
+                        <h4>Détail par vendeur</h4>
+                        <table class="table table-sm">
+                            <thead>
+                                <tr>
+                                    <th>Vendeur</th>
+                                    <th class="text-end">Nombre de ventes</th>
+                                    <th class="text-end">Chiffre d'affaires</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr t-foreach="doc.ligne_vendeur_ids" t-as="ligne">
+                                    <td><span t-field="ligne.vendeur_id.name"/></td>
+                                    <td class="text-end"><span t-field="ligne.nombre_ventes"/></td>
+                                    <td class="text-end"><span t-field="ligne.ca"/></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div style="margin-top: 60px;">
+                            <p>Signature du pharmacien responsable :</p>
+                            <div style="border-top: 1px solid #000; width: 250px; margin-top: 50px;"/>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+    <record id="action_report_bilan_caisse" model="ir.actions.report">
+        <field name="name">Bilan de caisse</field>
+        <field name="model">pharmacie.bilan.caisse.wizard</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">pharmacie_management.report_bilan_caisse</field>
+        <field name="report_file">pharmacie_management.report_bilan_caisse</field>
+    </record>
+</odoo>

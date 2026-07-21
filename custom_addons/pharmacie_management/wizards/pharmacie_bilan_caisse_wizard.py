@@ -45,6 +45,10 @@ class PharmacieBilanCaisseWizard(models.TransientModel):
                 for vendeur in ventes.vendeur_id
             ]
 
+    def action_imprimer(self):
+        self.ensure_one()
+        return self.env.ref('pharmacie_management.action_report_bilan_caisse').report_action(self)
+
 
 class PharmacieBilanCaisseWizardLigne(models.TransientModel):
     _name = 'pharmacie.bilan.caisse.wizard.ligne'

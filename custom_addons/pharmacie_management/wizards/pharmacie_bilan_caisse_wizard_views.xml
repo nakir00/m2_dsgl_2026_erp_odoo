@@ -21,6 +21,8 @@
                     </list>
                 </field>
                 <footer>
+                    <button string="Imprimer PDF" name="action_imprimer" type="object"
+                            class="btn-primary"/>
                     <button string="Fermer" special="cancel" class="btn-secondary"/>
                 </footer>
             </form>
