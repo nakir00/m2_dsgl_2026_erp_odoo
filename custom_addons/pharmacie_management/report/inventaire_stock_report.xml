@@ -1,0 +1,45 @@
+<odoo>
+    <template id="report_inventaire_stock">
+        <t t-call="web.html_container">
+            <t t-call="web.external_layout">
+                <div class="page">
+                    <h2>Inventaire des stocks</h2>
+                    <t t-foreach="docs" t-as="medicament">
+                        <t t-set="lots_actifs"
+                           t-value="medicament.lot_ids.filtered(lambda l: l.statut == 'valide')"/>
+                        <t t-if="lots_actifs">
+                            <h4><span t-field="medicament.nom_commercial"/></h4>
+                            <table class="table table-sm">
+                                <thead>
+                                    <tr>
+                                        <th>Numéro de lot</th>
+                                        <th class="text-end">Quantité restante</th>
+                                        <th>Date de péremption</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr t-foreach="lots_actifs" t-as="lot"
+                                        t-att-class="'text-danger' if lot.jours_avant_peremption &lt; 30 else ('text-warning' if lot.jours_avant_peremption &lt; 90 else '')">
+                                        <td><span t-field="lot.numero_lot"/></td>
+                                        <td class="text-end"><span t-field="lot.quantite_restante"/></td>
+                                        <td><span t-field="lot.date_peremption"/></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </t>
+                    </t>
+                </div>
+            </t>
+        </t>
+    </template>
+
+    <record id="action_report_inventaire_stock" model="ir.actions.report">
+        <field name="name">Inventaire des stocks</field>
+        <field name="model">pharmacie.medicament</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">pharmacie_management.report_inventaire_stock</field>
+        <field name="report_file">pharmacie_management.report_inventaire_stock</field>
+        <field name="binding_model_id" ref="model_pharmacie_medicament"/>
+        <field name="binding_type">report</field>
+    </record>
+</odoo>

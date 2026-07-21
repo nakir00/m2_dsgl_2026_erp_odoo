@@ -39,6 +39,7 @@ Fonctionnalités :
         'views/pharmacie_menu.xml',
         # 7. reports/*.xml
         'report/ticket_caisse_report.xml',
+        'report/inventaire_stock_report.xml',
     ],
     'demo': [],
     'application': True,
