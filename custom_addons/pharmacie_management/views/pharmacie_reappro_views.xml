@@ -5,7 +5,7 @@
         <field name="arch" type="xml">
             <form>
                 <header>
-                    <button name="action_commander" string="Commander" type="object"
+                    <button name="action_commander" string="Envoyer commande" type="object"
                             class="btn-primary" invisible="statut != 'brouillon'"/>
                     <button name="action_receptionner" string="Réceptionner" type="object"
                             class="btn-primary"
@@ -42,6 +42,42 @@
                     </group>
                 </sheet>
             </form>
+        </field>
+    </record>
+
+    <record id="view_pharmacie_reappro_list" model="ir.ui.view">
+        <field name="name">pharmacie.reappro.list</field>
+        <field name="model">pharmacie.reappro</field>
+        <field name="arch" type="xml">
+            <list default_order="date_commande desc">
+                <field name="reference"/>
+                <field name="fournisseur_id"/>
+                <field name="date_commande"/>
+                <field name="date_livraison_prevue"/>
+                <field name="montant_total"/>
+                <field name="statut"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_pharmacie_reappro_search" model="ir.ui.view">
+        <field name="name">pharmacie.reappro.search</field>
+        <field name="model">pharmacie.reappro</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="reference"/>
+                <field name="fournisseur_id"/>
+                <filter name="brouillon" string="Brouillon" domain="[('statut', '=', 'brouillon')]"/>
+                <filter name="commandee" string="Commandé" domain="[('statut', '=', 'commandee')]"/>
+                <filter name="recue" string="Reçu" domain="[('statut', '=', 'recue')]"/>
+                <separator/>
+                <group expand="0" string="Regrouper par">
+                    <filter name="group_fournisseur" string="Fournisseur"
+                            context="{'group_by': 'fournisseur_id'}"/>
+                    <filter name="group_statut" string="Statut"
+                            context="{'group_by': 'statut'}"/>
+                </group>
+            </search>
         </field>
     </record>
 </odoo>
