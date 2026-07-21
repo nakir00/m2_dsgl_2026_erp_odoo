@@ -64,10 +64,19 @@ class PharmacieVente(models.Model):
                     vente.ordonnance_id.state = 'delivree'
         return result
 
+    def _check_ordonnance_requise(self):
+        self.ensure_one()
+        medicaments_sur_ordonnance = self.ligne_ids.medicament_id.filtered('sur_ordonnance')
+        if medicaments_sur_ordonnance and not self.ordonnance_id:
+            raise UserError(_(
+                "Une ordonnance est requise pour vendre : %s."
+            ) % ', '.join(medicaments_sur_ordonnance.mapped('name')))
+
     def action_confirmer(self):
         for vente in self:
             if vente.state != 'brouillon':
                 continue
+            vente._check_ordonnance_requise()
             for line in vente.ligne_ids:
                 restant = line.quantite
                 lots = self.env['pharmacie.lot'].search([
