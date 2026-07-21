@@ -66,7 +66,10 @@
         <field name="name">pharmacie.medicament.kanban</field>
         <field name="model">pharmacie.medicament</field>
         <field name="arch" type="xml">
-            <kanban>
+            <kanban
+                decoration-danger="stock_actuel &lt;= alerte_rupture"
+                decoration-warning="stock_actuel &gt; alerte_rupture and stock_actuel &lt;= alerte_rupture * 2"
+                decoration-success="stock_actuel &gt; alerte_rupture * 2">
                 <field name="nom_commercial"/>
                 <field name="dci"/>
                 <field name="stock_actuel"/>
