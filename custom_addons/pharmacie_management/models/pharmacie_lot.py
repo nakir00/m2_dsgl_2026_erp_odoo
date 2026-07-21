@@ -23,6 +23,13 @@ class PharmacieLot(models.Model):
     prix_achat_unitaire = fields.Monetary(string="Prix d'achat unitaire")
     jours_avant_peremption = fields.Integer(
         string="Jours avant péremption", compute='_compute_jours_avant_peremption')
+    state = fields.Selection(
+        [
+            ('valide', "Valide"),
+            ('expire', "Expiré"),
+            ('epuise', "Épuisé"),
+        ],
+        string="Statut", compute='_compute_state', store=True)
 
     # reappro_id sera ajouté lorsque pharmacie.reappro existera (ticket #26).
 
@@ -47,3 +54,14 @@ class PharmacieLot(models.Model):
         for rec in self:
             rec.jours_avant_peremption = (
                 (rec.date_peremption - today).days if rec.date_peremption else 0)
+
+    @api.depends('quantite_actuelle', 'date_peremption')
+    def _compute_state(self):
+        today = fields.Date.context_today(self)
+        for rec in self:
+            if rec.date_peremption and rec.date_peremption < today:
+                rec.state = 'expire'
+            elif rec.quantite_actuelle <= 0:
+                rec.state = 'epuise'
+            else:
+                rec.state = 'valide'
