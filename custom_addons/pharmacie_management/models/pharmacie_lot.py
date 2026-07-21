@@ -1,4 +1,5 @@
-from odoo import api, fields, models
+from odoo import _, api, fields, models
+from odoo.exceptions import ValidationError
 
 
 class PharmacieLot(models.Model):
@@ -10,6 +11,7 @@ class PharmacieLot(models.Model):
     medicament_id = fields.Many2one(
         'pharmacie.medicament', string="Médicament",
         required=True, ondelete='restrict', index=True)
+    date_fabrication = fields.Date(string="Date de fabrication")
     date_reception = fields.Date(string="Date de réception")
     date_peremption = fields.Date(string="Date de péremption")
     quantite_initiale = fields.Float(string="Quantité initiale")
@@ -28,3 +30,11 @@ class PharmacieLot(models.Model):
             if not vals.get('numero_lot'):
                 vals['numero_lot'] = self.env['ir.sequence'].next_by_code('pharmacie.lot')
         return super().create(vals_list)
+
+    @api.constrains('date_fabrication', 'date_peremption')
+    def _check_dates_lot(self):
+        for rec in self:
+            if (rec.date_fabrication and rec.date_peremption
+                    and rec.date_peremption <= rec.date_fabrication):
+                raise ValidationError(
+                    _("La date de péremption doit être postérieure à la date de fabrication."))
