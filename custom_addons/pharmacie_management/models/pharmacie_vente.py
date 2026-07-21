@@ -35,3 +35,11 @@ class PharmacieVente(models.Model):
             if not vals.get('reference'):
                 vals['reference'] = self.env['ir.sequence'].next_by_code('pharmacie.vente')
         return super().create(vals_list)
+
+    def write(self, vals):
+        result = super().write(vals)
+        if vals.get('state') == 'confirmee':
+            for vente in self:
+                if vente.ordonnance_id:
+                    vente.ordonnance_id.state = 'delivree'
+        return result

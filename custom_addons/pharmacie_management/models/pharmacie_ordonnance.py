@@ -22,5 +22,5 @@ class PharmacieOrdonnance(models.Model):
     scan_ordonnance_filename = fields.Char(string="Nom du fichier scanné")
     posologie_ids = fields.One2many(
         'pharmacie.posologie', 'ordonnance_id', string="Médicaments prescrits")
-
-    # vente_id sera ajouté lorsque pharmacie.vente existera (tickets #20/#19).
+    vente_ids = fields.One2many(
+        'pharmacie.vente', 'ordonnance_id', string="Ventes")
