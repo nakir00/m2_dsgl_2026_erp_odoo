@@ -21,8 +21,9 @@ class PharmacieReappro(models.Model):
         ],
         string="Statut", default='brouillon')
     note = fields.Text(string="Note")
+    ligne_ids = fields.One2many(
+        'pharmacie.reappro.ligne', 'reappro_id', string="Lignes")
 
-    # ligne_ids sera ajouté au ticket #27.
     # montant_total sera ajouté au ticket #28.
 
     @api.model_create_multi

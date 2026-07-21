@@ -7,3 +7,4 @@ access_pharmacie_posologie_user,pharmacie.posologie.user,model_pharmacie_posolog
 access_pharmacie_vente_user,pharmacie.vente.user,model_pharmacie_vente,base.group_user,1,1,1,1
 access_pharmacie_vente_ligne_user,pharmacie.vente.ligne.user,model_pharmacie_vente_ligne,base.group_user,1,1,1,1
 access_pharmacie_reappro_user,pharmacie.reappro.user,model_pharmacie_reappro,base.group_user,1,1,1,1
+access_pharmacie_reappro_ligne_user,pharmacie.reappro.ligne.user,model_pharmacie_reappro_ligne,base.group_user,1,1,1,1
