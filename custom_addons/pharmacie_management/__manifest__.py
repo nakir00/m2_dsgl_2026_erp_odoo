@@ -33,8 +33,9 @@ Fonctionnalités :
         'views/pharmacie_ordonnance_views.xml',
         'views/pharmacie_vente_views.xml',
         'views/pharmacie_reappro_views.xml',
-        'views/pharmacie_menu.xml',
         # 6. wizards/*.xml
+        'wizards/pharmacie_reappro_auto_wizard_views.xml',
+        'views/pharmacie_menu.xml',
         # 7. reports/*.xml
     ],
     'demo': [],

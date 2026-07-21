@@ -60,6 +60,9 @@
     <menuitem id="menu_pharmacie_alertes" name="Alertes de péremption / rupture"
               parent="menu_pharmacie_stock" action="action_pharmacie_lot_alertes"
               sequence="30"/>
+    <menuitem id="menu_pharmacie_reappro_auto_wizard" name="Réapprovisionnement automatique"
+              parent="menu_pharmacie_stock" action="action_pharmacie_reappro_auto_wizard"
+              groups="group_pharmacie_pharmacien" sequence="40"/>
 
     <!-- Fournisseurs : Pharmacien et Gestionnaire uniquement -->
     <menuitem id="menu_pharmacie_fournisseurs" name="Fournisseurs"
