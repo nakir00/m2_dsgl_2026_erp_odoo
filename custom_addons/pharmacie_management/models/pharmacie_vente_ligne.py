@@ -24,7 +24,7 @@ class PharmacieVenteLigne(models.Model):
         string="Montant TTC", compute='_compute_montants', store=True)
     lot_id = fields.Many2one(
         'pharmacie.lot', string="Lot", readonly=True,
-        help="Premier lot consommé (FEFO) pour cette ligne à la confirmation de la vente.")
+        help="Lot consommé (FEFO) pour cette ligne à la confirmation de la vente.")
 
     @api.depends('quantite', 'prix_unitaire', 'medicament_id.tva')
     def _compute_montants(self):

@@ -7,6 +7,8 @@
                 <header>
                     <button name="action_confirmer" string="Confirmer" type="object"
                             class="btn-primary" invisible="state != 'brouillon'"/>
+                    <button name="action_annuler" string="Annuler" type="object"
+                            invisible="state == 'annulee'"/>
                     <field name="state" widget="statusbar"
                            statusbar_visible="brouillon,confirmee"/>
                 </header>

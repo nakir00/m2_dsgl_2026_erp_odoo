@@ -78,27 +78,29 @@ class PharmacieVente(models.Model):
                 continue
             vente._check_ordonnance_requise()
             for line in vente.ligne_ids:
-                restant = line.quantite
-                lots = self.env['pharmacie.lot'].search([
+                lot = self.env['pharmacie.lot'].search([
                     ('medicament_id', '=', line.medicament_id.id),
                     ('state', '=', 'valide'),
-                    ('quantite_actuelle', '>', 0),
-                ], order='date_peremption asc')
-                if sum(lots.mapped('quantite_actuelle')) < restant:
+                    ('quantite_actuelle', '>=', line.quantite),
+                ], order='date_peremption asc', limit=1)
+                if not lot:
                     raise UserError(_(
-                        "Stock insuffisant pour %(medicament)s : disponible %(dispo).2f, "
-                        "demandé %(demande).2f."
+                        "Stock insuffisant pour %(medicament)s : aucun lot disponible ne "
+                        "couvre la quantité demandée (%(demande).2f)."
                     ) % {
                         'medicament': line.medicament_id.name,
-                        'dispo': sum(lots.mapped('quantite_actuelle')),
-                        'demande': restant,
+                        'demande': line.quantite,
                     })
-                if lots:
-                    line.lot_id = lots[0].id
-                for lot in lots:
-                    if restant <= 0:
-                        break
-                    prelevement = min(lot.quantite_actuelle, restant)
-                    lot.quantite_actuelle -= prelevement
-                    restant -= prelevement
+                lot.quantite_actuelle -= line.quantite
+                line.lot_id = lot.id
             vente.state = 'confirmee'
+
+    def action_annuler(self):
+        for vente in self:
+            if vente.state == 'annulee':
+                continue
+            if vente.state == 'confirmee':
+                for line in vente.ligne_ids:
+                    if line.lot_id:
+                        line.lot_id.quantite_actuelle += line.quantite
+            vente.state = 'annulee'
