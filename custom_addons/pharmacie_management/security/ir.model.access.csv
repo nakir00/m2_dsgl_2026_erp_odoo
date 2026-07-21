@@ -3,3 +3,4 @@ access_pharmacie_categorie_user,pharmacie.categorie.user,model_pharmacie_categor
 access_pharmacie_medicament_user,pharmacie.medicament.user,model_pharmacie_medicament,base.group_user,1,1,1,1
 access_pharmacie_lot_user,pharmacie.lot.user,model_pharmacie_lot,base.group_user,1,1,1,1
 access_pharmacie_ordonnance_user,pharmacie.ordonnance.user,model_pharmacie_ordonnance,base.group_user,1,1,1,1
+access_pharmacie_posologie_user,pharmacie.posologie.user,model_pharmacie_posologie,base.group_user,1,1,1,1

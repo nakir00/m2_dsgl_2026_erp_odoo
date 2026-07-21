@@ -19,6 +19,7 @@ class PharmacieOrdonnance(models.Model):
         ],
         string="Statut", default='brouillon')
     scan_ordonnance = fields.Binary(string="Scan de l'ordonnance")
+    posologie_ids = fields.One2many(
+        'pharmacie.posologie', 'ordonnance_id', string="Médicaments prescrits")
 
-    # posologie_ids sera ajouté lorsque pharmacie.posologie existera (ticket #17).
     # vente_id sera ajouté lorsque pharmacie.vente existera (tickets #20/#19).
