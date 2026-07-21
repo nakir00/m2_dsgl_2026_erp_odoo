@@ -43,7 +43,9 @@ Fonctionnalités :
         'report/bilan_caisse_report.xml',
         'report/bon_commande_report.xml',
     ],
-    'demo': [],
+    'demo': [
+        'demo/demo_medicaments.xml',
+    ],
     'application': True,
     'installable': True,
 }

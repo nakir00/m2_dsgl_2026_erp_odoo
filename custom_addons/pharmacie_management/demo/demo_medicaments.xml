@@ -1,0 +1,189 @@
+<odoo>
+    <!-- Catégories thérapeutiques (hiérarchie parent/enfant) -->
+    <record id="demo_categorie_antibiotiques" model="pharmacie.categorie">
+        <field name="name">Antibiotiques</field>
+        <field name="code">ANTIBIO</field>
+    </record>
+    <record id="demo_categorie_penicillines" model="pharmacie.categorie">
+        <field name="name">Pénicillines</field>
+        <field name="code">ANTIBIO-PENI</field>
+        <field name="parent_id" ref="demo_categorie_antibiotiques"/>
+    </record>
+    <record id="demo_categorie_antalgiques" model="pharmacie.categorie">
+        <field name="name">Antalgiques</field>
+        <field name="code">ANTALG</field>
+    </record>
+    <record id="demo_categorie_antipaludeens" model="pharmacie.categorie">
+        <field name="name">Antipaludéens</field>
+        <field name="code">PALU</field>
+    </record>
+    <record id="demo_categorie_psychotropes" model="pharmacie.categorie">
+        <field name="name">Psychotropes</field>
+        <field name="code">PSYCHO</field>
+    </record>
+    <record id="demo_categorie_bronchodilatateurs" model="pharmacie.categorie">
+        <field name="name">Bronchodilatateurs</field>
+        <field name="code">BRONCHO</field>
+    </record>
+    <record id="demo_categorie_antispasmodiques" model="pharmacie.categorie">
+        <field name="name">Antispasmodiques</field>
+        <field name="code">SPASMO</field>
+    </record>
+
+    <!-- Médicaments de démonstration -->
+    <record id="demo_medicament_doliprane" model="pharmacie.medicament">
+        <field name="nom_commercial">Doliprane</field>
+        <field name="dci">Paracétamol</field>
+        <field name="forme">comprime</field>
+        <field name="dosage">500 mg</field>
+        <field name="conditionnement">Boîte de 16</field>
+        <field name="categorie_id" ref="demo_categorie_antalgiques"/>
+        <field name="prix_achat">400</field>
+        <field name="prix_vente">600</field>
+        <field name="taux_tva">0</field>
+        <field name="sur_ordonnance">False</field>
+        <field name="alerte_rupture">20</field>
+    </record>
+
+    <record id="demo_medicament_efferalgan" model="pharmacie.medicament">
+        <field name="nom_commercial">Efferalgan</field>
+        <field name="dci">Paracétamol</field>
+        <field name="forme">sirop</field>
+        <field name="dosage">3%, flacon 90 mL</field>
+        <field name="conditionnement">Flacon 90 mL</field>
+        <field name="categorie_id" ref="demo_categorie_antalgiques"/>
+        <field name="prix_achat">900</field>
+        <field name="prix_vente">1400</field>
+        <field name="taux_tva">0</field>
+        <field name="sur_ordonnance">False</field>
+        <field name="alerte_rupture">10</field>
+    </record>
+
+    <record id="demo_medicament_aspegic" model="pharmacie.medicament">
+        <field name="nom_commercial">Aspégic</field>
+        <field name="dci">Acide acétylsalicylique</field>
+        <field name="forme">poudre</field>
+        <field name="dosage">1000 mg</field>
+        <field name="conditionnement">Boîte de 20 sachets</field>
+        <field name="categorie_id" ref="demo_categorie_antalgiques"/>
+        <field name="prix_achat">1500</field>
+        <field name="prix_vente">2200</field>
+        <field name="taux_tva">18</field>
+        <field name="sur_ordonnance">False</field>
+        <field name="alerte_rupture">10</field>
+    </record>
+
+    <record id="demo_medicament_amoxil" model="pharmacie.medicament">
+        <field name="nom_commercial">Amoxil</field>
+        <field name="dci">Amoxicilline</field>
+        <field name="forme">gelule</field>
+        <field name="dosage">500 mg</field>
+        <field name="conditionnement">Boîte de 12</field>
+        <field name="categorie_id" ref="demo_categorie_penicillines"/>
+        <field name="prix_achat">1200</field>
+        <field name="prix_vente">1800</field>
+        <field name="taux_tva">0</field>
+        <field name="sur_ordonnance">True</field>
+        <field name="alerte_rupture">15</field>
+    </record>
+
+    <record id="demo_medicament_augmentin" model="pharmacie.medicament">
+        <field name="nom_commercial">Augmentin</field>
+        <field name="dci">Amoxicilline / Acide clavulanique</field>
+        <field name="forme">comprime</field>
+        <field name="dosage">1 g</field>
+        <field name="conditionnement">Boîte de 8</field>
+        <field name="categorie_id" ref="demo_categorie_penicillines"/>
+        <field name="prix_achat">2500</field>
+        <field name="prix_vente">3800</field>
+        <field name="taux_tva">0</field>
+        <field name="sur_ordonnance">True</field>
+        <field name="alerte_rupture">10</field>
+    </record>
+
+    <record id="demo_medicament_flagyl" model="pharmacie.medicament">
+        <field name="nom_commercial">Flagyl</field>
+        <field name="dci">Métronidazole</field>
+        <field name="forme">comprime</field>
+        <field name="dosage">500 mg</field>
+        <field name="conditionnement">Boîte de 14</field>
+        <field name="categorie_id" ref="demo_categorie_antibiotiques"/>
+        <field name="prix_achat">1000</field>
+        <field name="prix_vente">1600</field>
+        <field name="taux_tva">0</field>
+        <field name="sur_ordonnance">True</field>
+        <field name="alerte_rupture">10</field>
+    </record>
+
+    <record id="demo_medicament_coartem" model="pharmacie.medicament">
+        <field name="nom_commercial">Coartem</field>
+        <field name="dci">Artéméther / Luméfantrine</field>
+        <field name="forme">comprime</field>
+        <field name="dosage">20 mg / 120 mg</field>
+        <field name="conditionnement">Boîte de 24</field>
+        <field name="categorie_id" ref="demo_categorie_antipaludeens"/>
+        <field name="prix_achat">1800</field>
+        <field name="prix_vente">2700</field>
+        <field name="taux_tva">0</field>
+        <field name="sur_ordonnance">True</field>
+        <field name="alerte_rupture">25</field>
+    </record>
+
+    <record id="demo_medicament_nivaquine" model="pharmacie.medicament">
+        <field name="nom_commercial">Nivaquine</field>
+        <field name="dci">Chloroquine</field>
+        <field name="forme">comprime</field>
+        <field name="dosage">100 mg</field>
+        <field name="conditionnement">Boîte de 20</field>
+        <field name="categorie_id" ref="demo_categorie_antipaludeens"/>
+        <field name="prix_achat">700</field>
+        <field name="prix_vente">1100</field>
+        <field name="taux_tva">0</field>
+        <field name="sur_ordonnance">True</field>
+        <field name="alerte_rupture">15</field>
+    </record>
+
+    <record id="demo_medicament_ventoline" model="pharmacie.medicament">
+        <field name="nom_commercial">Ventoline</field>
+        <field name="dci">Salbutamol</field>
+        <field name="forme">autre</field>
+        <field name="dosage">100 µg/dose, spray 200 doses</field>
+        <field name="conditionnement">Aérosol doseur</field>
+        <field name="categorie_id" ref="demo_categorie_bronchodilatateurs"/>
+        <field name="prix_achat">2200</field>
+        <field name="prix_vente">3300</field>
+        <field name="taux_tva">18</field>
+        <field name="sur_ordonnance">True</field>
+        <field name="alerte_rupture">8</field>
+    </record>
+
+    <record id="demo_medicament_spasfon" model="pharmacie.medicament">
+        <field name="nom_commercial">Spasfon</field>
+        <field name="dci">Phloroglucinol</field>
+        <field name="forme">comprime</field>
+        <field name="dosage">80 mg</field>
+        <field name="conditionnement">Boîte de 30</field>
+        <field name="categorie_id" ref="demo_categorie_antispasmodiques"/>
+        <field name="prix_achat">1300</field>
+        <field name="prix_vente">2000</field>
+        <field name="taux_tva">18</field>
+        <field name="sur_ordonnance">False</field>
+        <field name="alerte_rupture">10</field>
+    </record>
+
+    <record id="demo_medicament_xanax" model="pharmacie.medicament">
+        <field name="nom_commercial">Xanax</field>
+        <field name="dci">Alprazolam</field>
+        <field name="forme">comprime</field>
+        <field name="dosage">0,25 mg</field>
+        <field name="conditionnement">Boîte de 30</field>
+        <field name="categorie_id" ref="demo_categorie_psychotropes"/>
+        <field name="prix_achat">2000</field>
+        <field name="prix_vente">3200</field>
+        <field name="taux_tva">18</field>
+        <field name="sur_ordonnance">True</field>
+        <field name="alerte_rupture">5</field>
+    </record>
+
+    <!-- fournisseur_id sera renseigné au ticket #51 (fournisseurs de démonstration). -->
+</odoo>
