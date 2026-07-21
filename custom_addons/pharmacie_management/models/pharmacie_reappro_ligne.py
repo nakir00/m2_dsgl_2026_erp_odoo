@@ -13,11 +13,8 @@ class PharmacieReapproLigne(models.Model):
         ondelete='restrict', index=True)
     quantite = fields.Float(string="Quantité", default=1.0)
 
-    currency_id = fields.Many2one(
-        'res.currency', string="Devise",
-        default=lambda self: self.env.company.currency_id)
-    prix_unitaire = fields.Monetary(string="Prix unitaire")
-    montant = fields.Monetary(
+    prix_unitaire = fields.Float(string="Prix unitaire (FCFA)")
+    montant = fields.Float(
         string="Montant", compute='_compute_montant', store=True)
 
     @api.depends('quantite', 'prix_unitaire')

@@ -6,10 +6,10 @@
             <form>
                 <header>
                     <button name="action_confirmer" string="Confirmer" type="object"
-                            class="btn-primary" invisible="state != 'brouillon'"/>
+                            class="btn-primary" invisible="statut != 'brouillon'"/>
                     <button name="action_annuler" string="Annuler" type="object"
-                            invisible="state == 'annulee'"/>
-                    <field name="state" widget="statusbar"
+                            invisible="statut == 'annulee'"/>
+                    <field name="statut" widget="statusbar"
                            statusbar_visible="brouillon,confirmee"/>
                 </header>
                 <sheet>
@@ -21,10 +21,10 @@
                             <field name="ordonnance_id"/>
                         </group>
                         <group>
-                            <field name="date_vente"/>
-                            <field name="paiement"/>
+                            <field name="date_vente" readonly="1"/>
+                            <field name="mode_paiement"/>
                             <field name="montant_ht"/>
-                            <field name="montant_tva"/>
+                            <field name="tva"/>
                             <field name="montant_ttc"/>
                         </group>
                     </group>

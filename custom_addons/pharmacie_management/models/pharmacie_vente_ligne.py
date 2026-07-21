@@ -12,23 +12,21 @@ class PharmacieVenteLigne(models.Model):
         ondelete='restrict', index=True)
     quantite = fields.Float(string="Quantité", default=1.0)
 
-    currency_id = fields.Many2one(
-        'res.currency', string="Devise",
-        default=lambda self: self.env.company.currency_id)
-    prix_unitaire = fields.Monetary(string="Prix unitaire")
-    montant_ht = fields.Monetary(
+    prix_unitaire = fields.Float(string="Prix unitaire (FCFA)")
+    montant_ht = fields.Float(
         string="Montant HT", compute='_compute_montants', store=True)
-    montant_tva = fields.Monetary(
+    montant_tva = fields.Float(
         string="Montant TVA", compute='_compute_montants', store=True)
-    montant_ttc = fields.Monetary(
+    montant_ttc = fields.Float(
         string="Montant TTC", compute='_compute_montants', store=True)
     lot_id = fields.Many2one(
         'pharmacie.lot', string="Lot", readonly=True,
         help="Lot consommé (FEFO) pour cette ligne à la confirmation de la vente.")
 
-    @api.depends('quantite', 'prix_unitaire', 'medicament_id.tva')
+    @api.depends('quantite', 'prix_unitaire', 'medicament_id.taux_tva')
     def _compute_montants(self):
         for line in self:
             line.montant_ht = line.quantite * line.prix_unitaire
-            line.montant_tva = line.montant_ht * (line.medicament_id.tva or 0.0) / 100
+            taux = float(line.medicament_id.taux_tva or 0)
+            line.montant_tva = line.montant_ht * taux / 100
             line.montant_ttc = line.montant_ht + line.montant_tva

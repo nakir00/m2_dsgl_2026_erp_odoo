@@ -15,21 +15,18 @@ class PharmacieLot(models.Model):
     date_reception = fields.Date(string="Date de réception")
     date_peremption = fields.Date(string="Date de péremption")
     quantite_initiale = fields.Float(string="Quantité initiale")
-    quantite_actuelle = fields.Float(string="Quantité actuelle")
+    quantite_restante = fields.Float(string="Quantité restante")
 
-    currency_id = fields.Many2one(
-        'res.currency', string="Devise",
-        default=lambda self: self.env.company.currency_id)
-    prix_achat_unitaire = fields.Monetary(string="Prix d'achat unitaire")
+    prix_achat_lot = fields.Float(string="Prix d'achat du lot (FCFA)")
     jours_avant_peremption = fields.Integer(
         string="Jours avant péremption", compute='_compute_jours_avant_peremption')
-    state = fields.Selection(
+    statut = fields.Selection(
         [
             ('valide', "Valide"),
             ('expire', "Expiré"),
             ('epuise', "Épuisé"),
         ],
-        string="Statut", compute='_compute_state', store=True)
+        string="Statut", compute='_compute_statut', store=True)
     reappro_id = fields.Many2one(
         'pharmacie.reappro', string="Réapprovisionnement d'origine", ondelete='set null')
 
@@ -55,13 +52,13 @@ class PharmacieLot(models.Model):
             rec.jours_avant_peremption = (
                 (rec.date_peremption - today).days if rec.date_peremption else 0)
 
-    @api.depends('quantite_actuelle', 'date_peremption')
-    def _compute_state(self):
+    @api.depends('quantite_restante', 'date_peremption')
+    def _compute_statut(self):
         today = fields.Date.context_today(self)
         for rec in self:
             if rec.date_peremption and rec.date_peremption < today:
-                rec.state = 'expire'
-            elif rec.quantite_actuelle <= 0:
-                rec.state = 'epuise'
+                rec.statut = 'expire'
+            elif rec.quantite_restante <= 0:
+                rec.statut = 'epuise'
             else:
-                rec.state = 'valide'
+                rec.statut = 'valide'

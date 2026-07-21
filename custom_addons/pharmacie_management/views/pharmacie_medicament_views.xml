@@ -3,13 +3,12 @@
         <field name="name">pharmacie.medicament.list</field>
         <field name="model">pharmacie.medicament</field>
         <field name="arch" type="xml">
-            <list decoration-danger="alerte_rupture">
-                <field name="name"/>
+            <list decoration-danger="stock_actuel &lt;= alerte_rupture">
+                <field name="nom_commercial"/>
                 <field name="dci"/>
                 <field name="categorie_id"/>
                 <field name="stock_actuel"/>
-                <field name="seuil_alerte"/>
-                <field name="alerte_rupture" invisible="1"/>
+                <field name="alerte_rupture"/>
             </list>
         </field>
     </record>

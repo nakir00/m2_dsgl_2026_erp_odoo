@@ -10,7 +10,7 @@
     <record id="seq_pharmacie_vente" model="ir.sequence">
         <field name="name">Référence de vente pharmacie</field>
         <field name="code">pharmacie.vente</field>
-        <field name="prefix">VENTE/%(year)s/</field>
+        <field name="prefix">VTE/%(year)s/</field>
         <field name="padding">4</field>
         <field name="company_id" eval="False"/>
     </record>

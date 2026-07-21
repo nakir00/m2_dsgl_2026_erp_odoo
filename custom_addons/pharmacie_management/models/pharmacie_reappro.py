@@ -12,23 +12,20 @@ class PharmacieReappro(models.Model):
         'res.partner', string="Fournisseur", required=True,
         domain="[('is_fournisseur_pharma', '=', True)]")
     date_commande = fields.Date(string="Date de commande", default=fields.Date.context_today)
-    date_reception_prevue = fields.Date(string="Date de réception prévue")
-    state = fields.Selection(
+    date_livraison_prevue = fields.Date(string="Date de livraison prévue")
+    statut = fields.Selection(
         [
             ('brouillon', "Brouillon"),
-            ('commandee', "Commandée"),
-            ('recue_partiellement', "Reçue partiellement"),
-            ('recue', "Reçue"),
+            ('commandee', "Commandé"),
+            ('recue_partiellement', "Reçu partiellement"),
+            ('recue', "Reçu"),
         ],
         string="Statut", default='brouillon')
-    note = fields.Text(string="Note")
+    note_interne = fields.Text(string="Note interne")
     ligne_ids = fields.One2many(
         'pharmacie.reappro.ligne', 'reappro_id', string="Lignes")
 
-    currency_id = fields.Many2one(
-        'res.currency', string="Devise",
-        default=lambda self: self.env.company.currency_id)
-    montant_total = fields.Monetary(
+    montant_total = fields.Float(
         string="Montant total", compute='_compute_montant_total', store=True)
 
     @api.depends('ligne_ids.montant')
@@ -45,24 +42,24 @@ class PharmacieReappro(models.Model):
 
     def action_commander(self):
         for reappro in self:
-            if reappro.state != 'brouillon':
+            if reappro.statut != 'brouillon':
                 raise UserError(_(
                     "Seul un bon de commande en brouillon peut être commandé."))
-            reappro.state = 'commandee'
+            reappro.statut = 'commandee'
 
     def action_receptionner(self):
         for reappro in self:
-            if reappro.state not in ('commandee', 'recue_partiellement'):
+            if reappro.statut not in ('commandee', 'recue_partiellement'):
                 raise UserError(_(
-                    "Seule une commande passée (Commandée ou Reçue partiellement) "
+                    "Seule une commande passée (Commandé ou Reçu partiellement) "
                     "peut être réceptionnée."))
             for line in reappro.ligne_ids:
                 self.env['pharmacie.lot'].create({
                     'medicament_id': line.medicament_id.id,
                     'quantite_initiale': line.quantite,
-                    'quantite_actuelle': line.quantite,
-                    'prix_achat_unitaire': line.prix_unitaire,
+                    'quantite_restante': line.quantite,
+                    'prix_achat_lot': line.prix_unitaire,
                     'date_reception': fields.Date.context_today(self),
                     'reappro_id': reappro.id,
                 })
-            reappro.state = 'recue'
+            reappro.statut = 'recue'

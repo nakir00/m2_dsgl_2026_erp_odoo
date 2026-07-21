@@ -6,15 +6,21 @@
             <form>
                 <sheet>
                     <group>
-                        <group>
-                            <field name="patient_id"/>
-                            <field name="medecin"/>
-                            <field name="structure"/>
+                        <group string="Patient">
+                            <field name="patient_nom"/>
+                            <field name="patient_age"/>
+                            <field name="patient_genre"/>
                         </group>
-                        <group>
-                            <field name="date_ordonnance"/>
-                            <field name="state"/>
+                        <group string="Prescription">
+                            <field name="medecin_nom"/>
+                            <field name="structure_sante"/>
+                            <field name="date_prescription"/>
+                            <field name="statut"/>
+                            <field name="vente_id" readonly="1"/>
                         </group>
+                    </group>
+                    <group string="Médicaments prescrits">
+                        <field name="medicament_ids" widget="many2many_tags"/>
                     </group>
                     <group string="Scan de l'ordonnance">
                         <field name="scan_ordonnance_filename" invisible="1"/>
@@ -22,7 +28,7 @@
                                filename="scan_ordonnance_filename"/>
                     </group>
                     <notebook>
-                        <page string="Médicaments prescrits" name="posologie">
+                        <page string="Posologie" name="posologie">
                             <field name="posologie_ids">
                                 <list editable="bottom">
                                     <field name="medicament_id"/>

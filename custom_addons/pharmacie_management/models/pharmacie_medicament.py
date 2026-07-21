@@ -4,9 +4,10 @@ from odoo import api, fields, models
 class PharmacieMedicament(models.Model):
     _name = 'pharmacie.medicament'
     _description = "Médicament du catalogue"
-    _order = 'name'
+    _order = 'nom_commercial'
+    _rec_name = 'nom_commercial'
 
-    name = fields.Char(string="Nom commercial", required=True)
+    nom_commercial = fields.Char(string="Nom commercial", required=True)
     dci = fields.Char(string="DCI", help="Dénomination Commune Internationale")
     forme = fields.Selection(
         [
@@ -27,12 +28,11 @@ class PharmacieMedicament(models.Model):
         'res.partner', string="Fournisseur",
         domain="[('is_fournisseur_pharma', '=', True)]")
 
-    currency_id = fields.Many2one(
-        'res.currency', string="Devise",
-        default=lambda self: self.env.company.currency_id)
-    prix_achat = fields.Monetary(string="Prix d'achat")
-    prix_vente = fields.Monetary(string="Prix de vente")
-    tva = fields.Float(string="TVA (%)")
+    prix_achat = fields.Float(string="Prix d'achat (FCFA)")
+    prix_vente = fields.Float(string="Prix de vente (FCFA)")
+    taux_tva = fields.Selection(
+        [('0', "0 %"), ('18', "18 %")],
+        string="Taux de TVA", default='18')
     marge_pct = fields.Float(
         string="Marge (%)", compute='_compute_marge_pct', store=True)
 
@@ -43,9 +43,8 @@ class PharmacieMedicament(models.Model):
     lot_ids = fields.One2many('pharmacie.lot', 'medicament_id', string="Lots")
     stock_actuel = fields.Float(
         string="Stock actuel", compute='_compute_stock_actuel', store=True)
-    seuil_alerte = fields.Integer(string="Seuil d'alerte", default=10)
-    alerte_rupture = fields.Boolean(
-        string="Alerte rupture", compute='_compute_alerte_rupture', store=True)
+    alerte_rupture = fields.Integer(
+        string="Seuil d'alerte de rupture", default=10)
 
     @api.depends('prix_achat', 'prix_vente')
     def _compute_marge_pct(self):
@@ -55,17 +54,12 @@ class PharmacieMedicament(models.Model):
             else:
                 rec.marge_pct = 0.0
 
-    @api.depends('lot_ids.quantite_actuelle', 'lot_ids.date_peremption')
+    @api.depends('lot_ids.quantite_restante', 'lot_ids.date_peremption')
     def _compute_stock_actuel(self):
         today = fields.Date.context_today(self)
         for rec in self:
             lots_valides = rec.lot_ids.filtered(
-                lambda lot: lot.quantite_actuelle > 0
+                lambda lot: lot.quantite_restante > 0
                 and (not lot.date_peremption or lot.date_peremption >= today)
             )
-            rec.stock_actuel = sum(lots_valides.mapped('quantite_actuelle'))
-
-    @api.depends('stock_actuel', 'seuil_alerte')
-    def _compute_alerte_rupture(self):
-        for rec in self:
-            rec.alerte_rupture = rec.stock_actuel <= rec.seuil_alerte
+            rec.stock_actuel = sum(lots_valides.mapped('quantite_restante'))
