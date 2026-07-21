@@ -1,4 +1,4 @@
-from odoo import fields, models
+from odoo import api, fields, models
 
 
 class PharmacieVenteLigne(models.Model):
@@ -16,5 +16,18 @@ class PharmacieVenteLigne(models.Model):
         'res.currency', string="Devise",
         default=lambda self: self.env.company.currency_id)
     prix_unitaire = fields.Monetary(string="Prix unitaire")
+    montant_ht = fields.Monetary(
+        string="Montant HT", compute='_compute_montants', store=True)
+    montant_tva = fields.Monetary(
+        string="Montant TVA", compute='_compute_montants', store=True)
+    montant_ttc = fields.Monetary(
+        string="Montant TTC", compute='_compute_montants', store=True)
 
     # lot_id sera ajouté au ticket #23 (décrémentation des lots à la confirmation).
+
+    @api.depends('quantite', 'prix_unitaire', 'medicament_id.tva')
+    def _compute_montants(self):
+        for line in self:
+            line.montant_ht = line.quantite * line.prix_unitaire
+            line.montant_tva = line.montant_ht * (line.medicament_id.tva or 0.0) / 100
+            line.montant_ttc = line.montant_ht + line.montant_tva

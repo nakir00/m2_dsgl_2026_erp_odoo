@@ -31,6 +31,23 @@ class PharmacieVente(models.Model):
     ligne_ids = fields.One2many(
         'pharmacie.vente.ligne', 'vente_id', string="Lignes de vente")
 
+    currency_id = fields.Many2one(
+        'res.currency', string="Devise",
+        default=lambda self: self.env.company.currency_id)
+    montant_ht = fields.Monetary(
+        string="Montant HT", compute='_compute_montants', store=True)
+    montant_tva = fields.Monetary(
+        string="Montant TVA", compute='_compute_montants', store=True)
+    montant_ttc = fields.Monetary(
+        string="Montant TTC", compute='_compute_montants', store=True)
+
+    @api.depends('ligne_ids.montant_ht', 'ligne_ids.montant_tva', 'ligne_ids.montant_ttc')
+    def _compute_montants(self):
+        for vente in self:
+            vente.montant_ht = sum(vente.ligne_ids.mapped('montant_ht'))
+            vente.montant_tva = sum(vente.ligne_ids.mapped('montant_tva'))
+            vente.montant_ttc = sum(vente.ligne_ids.mapped('montant_ttc'))
+
     @api.model_create_multi
     def create(self, vals_list):
         for vals in vals_list:
