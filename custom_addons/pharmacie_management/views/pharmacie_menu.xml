@@ -1,0 +1,42 @@
+<odoo>
+    <menuitem id="menu_pharmacie_root" name="Pharmacie" sequence="10"/>
+
+    <!-- Configuration : Pharmacien et Gestionnaire uniquement -->
+    <menuitem id="menu_pharmacie_configuration" name="Configuration"
+              parent="menu_pharmacie_root" sequence="90"
+              groups="group_pharmacie_pharmacien"/>
+
+    <record id="action_pharmacie_categorie" model="ir.actions.act_window">
+        <field name="name">Catégories de médicaments</field>
+        <field name="res_model">pharmacie.categorie</field>
+        <field name="view_mode">list,form</field>
+    </record>
+    <menuitem id="menu_pharmacie_categorie" name="Catégories de médicaments"
+              parent="menu_pharmacie_configuration" action="action_pharmacie_categorie"
+              sequence="10"/>
+
+    <!-- Fournisseurs : Pharmacien et Gestionnaire uniquement -->
+    <menuitem id="menu_pharmacie_fournisseurs" name="Fournisseurs"
+              parent="menu_pharmacie_root" sequence="40"
+              groups="group_pharmacie_pharmacien"/>
+
+    <record id="action_pharmacie_fournisseur" model="ir.actions.act_window">
+        <field name="name">Fournisseurs</field>
+        <field name="res_model">res.partner</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('is_fournisseur_pharma', '=', True)]</field>
+        <field name="context">{'default_is_fournisseur_pharma': True}</field>
+    </record>
+    <menuitem id="menu_pharmacie_fournisseur_liste" name="Liste des fournisseurs"
+              parent="menu_pharmacie_fournisseurs" action="action_pharmacie_fournisseur"
+              sequence="10"/>
+
+    <record id="action_pharmacie_reappro" model="ir.actions.act_window">
+        <field name="name">Réapprovisionnements</field>
+        <field name="res_model">pharmacie.reappro</field>
+        <field name="view_mode">list,form</field>
+    </record>
+    <menuitem id="menu_pharmacie_reappro" name="Réapprovisionnements"
+              parent="menu_pharmacie_fournisseurs" action="action_pharmacie_reappro"
+              sequence="20"/>
+</odoo>
