@@ -15,7 +15,7 @@ Fonctionnalités :
     'category': 'Inventory',
     'version': '18.0.1.0.0',
     'license': 'LGPL-3',
-    'depends': ['base', 'mail'],
+    'depends': ['base', 'mail', 'web'],
     'data': [
         # Ordre de chargement à respecter au fur et à mesure des tickets :
         # 1. security/groups.xml
@@ -38,6 +38,7 @@ Fonctionnalités :
         'wizards/pharmacie_bilan_caisse_wizard_views.xml',
         'views/pharmacie_menu.xml',
         # 7. reports/*.xml
+        'report/ticket_caisse_report.xml',
     ],
     'demo': [],
     'application': True,

@@ -1,0 +1,71 @@
+<odoo>
+    <record id="paperformat_pharmacie_ticket" model="report.paperformat">
+        <field name="name">Ticket de caisse 80mm</field>
+        <field name="format">custom</field>
+        <field name="page_width">80</field>
+        <field name="page_height">297</field>
+        <field name="margin_top">3</field>
+        <field name="margin_bottom">3</field>
+        <field name="margin_left">3</field>
+        <field name="margin_right">3</field>
+        <field name="dpi">80</field>
+    </record>
+
+    <template id="report_ticket_caisse">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <h2>Ticket de caisse</h2>
+                        <p>
+                            Référence : <span t-field="doc.reference"/><br/>
+                            Date : <span t-field="doc.date_vente"/><br/>
+                            Vendeur : <span t-field="doc.vendeur_id.name"/><br/>
+                            <t t-if="doc.ordonnance_id">
+                                Délivré sur ordonnance
+                                (<span t-field="doc.ordonnance_id.patient_nom"/>)<br/>
+                            </t>
+                        </p>
+                        <table class="table table-sm">
+                            <thead>
+                                <tr>
+                                    <th>Médicament</th>
+                                    <th>DCI</th>
+                                    <th class="text-end">Qté</th>
+                                    <th class="text-end">PU</th>
+                                    <th class="text-end">Montant TTC</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr t-foreach="doc.ligne_ids" t-as="ligne">
+                                    <td><span t-field="ligne.medicament_id.nom_commercial"/></td>
+                                    <td><span t-field="ligne.medicament_id.dci"/></td>
+                                    <td class="text-end"><span t-field="ligne.quantite"/></td>
+                                    <td class="text-end"><span t-field="ligne.prix_unitaire"/></td>
+                                    <td class="text-end"><span t-field="ligne.montant_ttc"/></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <p class="text-end">
+                            Montant HT : <span t-field="doc.montant_ht"/><br/>
+                            TVA : <span t-field="doc.tva"/><br/>
+                            <strong>Total TTC : <span t-field="doc.montant_ttc"/></strong><br/>
+                            Mode de paiement : <span t-field="doc.mode_paiement"/><br/>
+                        </p>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+    <record id="action_report_ticket_caisse" model="ir.actions.report">
+        <field name="name">Ticket de caisse</field>
+        <field name="model">pharmacie.vente</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">pharmacie_management.report_ticket_caisse</field>
+        <field name="report_file">pharmacie_management.report_ticket_caisse</field>
+        <field name="binding_model_id" ref="model_pharmacie_vente"/>
+        <field name="binding_type">report</field>
+        <field name="paperformat_id" ref="paperformat_pharmacie_ticket"/>
+    </record>
+</odoo>
