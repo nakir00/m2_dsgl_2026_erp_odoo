@@ -1,3 +1,5 @@
+from datetime import datetime, time, timedelta
+
 from odoo import Command, api, fields, models
 
 
@@ -30,10 +32,13 @@ class PharmacieBilanCaisseWizard(models.TransientModel):
         for wizard in self:
             ventes = Vente.browse()
             if wizard.date_debut and wizard.date_fin:
+                debut = datetime.combine(wizard.date_debut, time.min)
+                fin_exclue = datetime.combine(
+                    wizard.date_fin + timedelta(days=1), time.min)
                 ventes = Vente.search([
                     ('statut', '=', 'confirmee'),
-                    ('date_vente', '>=', wizard.date_debut),
-                    ('date_vente', '<=', wizard.date_fin),
+                    ('date_vente', '>=', debut),
+                    ('date_vente', '<', fin_exclue),
                 ])
             wizard.ca_total = sum(ventes.mapped('montant_ttc'))
             wizard.nombre_ventes = len(ventes)
