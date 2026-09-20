@@ -1,0 +1,38 @@
+name: Odoo checks
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  test-module:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate Docker Compose
+        run: docker compose config -q
+      - name: Start PostgreSQL
+        run: docker compose up -d db
+      - name: Wait for PostgreSQL
+        run: |
+          for attempt in {1..30}; do
+            docker compose exec -T db pg_isready -U odoo -d postgres && exit 0
+            sleep 2
+          done
+          exit 1
+      - name: Install and test the Odoo module
+        run: >
+          docker compose run --rm -T odoo odoo
+          -d pharmacie_ci
+          -i pharmacie_management
+          --test-enable
+          --test-tags /pharmacie_management
+          --stop-after-init
+          --without-demo=all
+      - name: Clean up containers and volumes
+        if: always()
+        run: docker compose down -v

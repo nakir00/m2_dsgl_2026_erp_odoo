@@ -7,25 +7,17 @@ This repository uses Docker Compose as the default local environment for Odoo 18
 ```text
 .
 ├── docker-compose.yml
-├── .env.example
 ├── odoo/
-│   ├── Dockerfile
 │   └── odoo.conf
 └── custom_addons/
 ```
 
 ## First Start
 
-Copy the example environment file:
+Start Odoo and PostgreSQL:
 
 ```bash
-cp .env.example .env
-```
-
-Update `.env` if necessary, then start Odoo:
-
-```bash
-docker compose up -d --build
+docker compose up -d
 ```
 
 Open Odoo:
@@ -59,6 +51,31 @@ Stop services and remove persistent volumes:
 ```bash
 docker compose down -v
 ```
+
+## Database Access and Backup
+
+PostgreSQL is intentionally available only to the Odoo container. Use Compose to
+run administration commands instead of publishing port `5432` on the host.
+
+Create a plain SQL backup of an Odoo database:
+
+```bash
+docker compose exec -T db pg_dump -U odoo pharmacie > sauvegarde-pharmacie.sql
+```
+
+Restore it into an existing empty database with the same name:
+
+```bash
+docker compose exec -T db psql -U odoo pharmacie < sauvegarde-pharmacie.sql
+```
+
+Replace `pharmacie` with the database name created from the Odoo database manager.
+
+## Demonstration Scope
+
+The bundled credentials are for local coursework only. Before any public deployment,
+use dedicated secrets, disable database listing, restrict network access, add HTTPS,
+and define a tested backup and restoration procedure.
 
 ## Addons
 
