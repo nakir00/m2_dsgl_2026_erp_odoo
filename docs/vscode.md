@@ -10,12 +10,10 @@ This repository includes VS Code workspace recommendations in `.vscode/extension
 | Pylance | Better Python analysis and navigation. |
 | Odoo | Odoo-specific helpers and snippets. |
 | XML | XML validation and editing for Odoo views, security, data, and QWeb reports. |
-| YAML | YAML support for Docker Compose and future Kubernetes manifests. |
+| YAML | YAML support for Docker Compose. |
 | Docker | Dockerfile and Docker Compose support. |
-| Kubernetes | Useful later if the project simulates deployment with k3d/K3s. |
 | GitHub Pull Requests | Work with GitHub issues and pull requests from VS Code. |
 | Markdownlint | Keep README and documentation files clean. |
-| EditorConfig | Consistent editor behavior across contributors. |
 
 ## Notes
 

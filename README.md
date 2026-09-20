@@ -34,8 +34,7 @@ See [docs/github-workflow.md](docs/github-workflow.md) for issue, branch, and pu
 The project uses Docker Compose as the default local environment:
 
 ```bash
-cp .env.example .env
-docker compose up -d --build
+docker compose up -d
 ```
 
 Then open:
@@ -45,6 +44,9 @@ http://localhost:8072
 ```
 
 See [docs/docker-compose.md](docs/docker-compose.md) for the full local setup.
+
+This Docker Compose configuration is intended for a local supervised demonstration.
+It does not provide public HTTPS exposure, production secrets, or Kubernetes deployment.
 
 ## VS Code
 
