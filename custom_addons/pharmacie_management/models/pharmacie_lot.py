@@ -8,6 +8,7 @@ class PharmacieLot(models.Model):
     _order = 'date_peremption'
 
     numero_lot = fields.Char(string="Numéro de lot", readonly=True, copy=False)
+    numero_lot_fournisseur = fields.Char(string="Numéro de lot fournisseur", copy=False)
     medicament_id = fields.Many2one(
         'pharmacie.medicament', string="Médicament",
         required=True, ondelete='restrict', index=True)
@@ -29,6 +30,9 @@ class PharmacieLot(models.Model):
         string="Statut", compute='_compute_statut', store=True)
     reappro_id = fields.Many2one(
         'pharmacie.reappro', string="Réapprovisionnement d'origine", ondelete='set null')
+    reappro_ligne_id = fields.Many2one(
+        'pharmacie.reappro.ligne', string="Ligne de commande d'origine",
+        ondelete='set null', index=True)
 
     @api.model_create_multi
     def create(self, vals_list):

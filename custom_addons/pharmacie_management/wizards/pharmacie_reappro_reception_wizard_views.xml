@@ -1,0 +1,41 @@
+<odoo>
+    <record id="view_pharmacie_reappro_reception_wizard_form" model="ir.ui.view">
+        <field name="name">pharmacie.reappro.reception.wizard.form</field>
+        <field name="model">pharmacie.reappro.reception.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="reappro_id"/>
+                    </group>
+                    <field name="ligne_ids">
+                        <list editable="bottom" create="0" delete="0">
+                            <field name="medicament_id"/>
+                            <field name="quantite_commandee"/>
+                            <field name="quantite_deja_recue"/>
+                            <field name="quantite_restante"/>
+                            <field name="quantite_a_recevoir"/>
+                            <field name="numero_lot_fournisseur"/>
+                            <field name="date_fabrication"/>
+                            <field name="date_reception"/>
+                            <field name="date_peremption"/>
+                        </list>
+                    </field>
+                </sheet>
+                <footer>
+                    <button string="Valider la réception" name="action_valider" type="object"
+                            class="btn-primary"/>
+                    <button string="Annuler" special="cancel" class="btn-secondary"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_pharmacie_reappro_reception_wizard" model="ir.actions.act_window">
+        <field name="name">Réception fournisseur</field>
+        <field name="res_model">pharmacie.reappro.reception.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="groups_id" eval="[(4, ref('pharmacie_management.group_pharmacie_gestionnaire'))]"/>
+    </record>
+</odoo>

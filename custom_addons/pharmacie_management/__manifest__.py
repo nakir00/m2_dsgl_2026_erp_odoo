@@ -13,9 +13,9 @@ Fonctionnalités :
 """,
     'author': "Équipe M2 DSGL 2026",
     'category': 'Inventory',
-    'version': '18.0.1.0.0',
+    'version': '18.0.1.1.0',
     'license': 'LGPL-3',
-    'depends': ['base', 'mail', 'web'],
+    'depends': ['base', 'web'],
     'data': [
         # Ordre de chargement à respecter au fur et à mesure des tickets :
         # 1. security/groups.xml
@@ -35,6 +35,7 @@ Fonctionnalités :
         'views/pharmacie_reappro_views.xml',
         # 6. wizards/*.xml
         'wizards/pharmacie_reappro_auto_wizard_views.xml',
+        'wizards/pharmacie_reappro_reception_wizard_views.xml',
         'wizards/pharmacie_bilan_caisse_wizard_views.xml',
         'views/pharmacie_menu.xml',
         # 7. reports/*.xml
