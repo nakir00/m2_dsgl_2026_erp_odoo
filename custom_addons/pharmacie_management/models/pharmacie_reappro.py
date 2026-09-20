@@ -1,5 +1,5 @@
 from odoo import _, api, fields, models
-from odoo.exceptions import UserError
+from odoo.exceptions import AccessError, UserError
 
 
 class PharmacieReappro(models.Model):
@@ -24,6 +24,8 @@ class PharmacieReappro(models.Model):
     note_interne = fields.Text(string="Note interne")
     ligne_ids = fields.One2many(
         'pharmacie.reappro.ligne', 'reappro_id', string="Lignes")
+    lot_ids = fields.One2many(
+        'pharmacie.lot', 'reappro_id', string="Lots reçus")
 
     montant_total = fields.Float(
         string="Montant total", compute='_compute_montant_total', store=True)
@@ -48,18 +50,24 @@ class PharmacieReappro(models.Model):
             reappro.statut = 'commandee'
 
     def action_receptionner(self):
-        for reappro in self:
-            if reappro.statut not in ('commandee', 'recue_partiellement'):
-                raise UserError(_(
-                    "Seule une commande passée (Commandé ou Reçu partiellement) "
-                    "peut être réceptionnée."))
-            for line in reappro.ligne_ids:
-                self.env['pharmacie.lot'].create({
-                    'medicament_id': line.medicament_id.id,
-                    'quantite_initiale': line.quantite,
-                    'quantite_restante': line.quantite,
-                    'prix_achat_lot': line.prix_unitaire,
-                    'date_reception': fields.Date.context_today(self),
-                    'reappro_id': reappro.id,
-                })
-            reappro.statut = 'recue'
+        self.ensure_one()
+        if (not self.env.is_superuser()
+                and not self.env.user.has_group(
+                    'pharmacie_management.group_pharmacie_gestionnaire')):
+            raise AccessError(_("Seul un gestionnaire peut valider une réception."))
+        if self.statut not in ('commandee', 'recue_partiellement'):
+            raise UserError(_(
+                "Seule une commande passée (Commandé ou Reçu partiellement) "
+                "peut être réceptionnée."))
+
+        return {
+            'type': 'ir.actions.act_window',
+            'name': _("Réception fournisseur"),
+            'res_model': 'pharmacie.reappro.reception.wizard',
+            'view_mode': 'form',
+            'target': 'new',
+            'context': {
+                'active_model': self._name,
+                'active_id': self.id,
+            },
+        }
