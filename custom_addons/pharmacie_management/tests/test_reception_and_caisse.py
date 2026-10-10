@@ -2,7 +2,7 @@ from datetime import date
 
 from odoo import Command
 from odoo.exceptions import AccessError, UserError
-from odoo.tests.common import TransactionCase
+from odoo.tests.common import Form, TransactionCase
 
 
 class TestPartialReception(TransactionCase):
@@ -67,6 +67,21 @@ class TestPartialReception(TransactionCase):
             set(reappro.lot_ids.mapped('numero_lot_fournisseur')),
             {'FOURN-001', 'FOURN-002'},
         )
+
+    def test_formulaire_conserve_la_ligne_commandee(self):
+        reappro = self._create_reappro()
+        form = Form(self.env['pharmacie.reappro.reception.wizard'].with_context(
+            active_model='pharmacie.reappro', active_id=reappro.id))
+        with form.ligne_ids.edit(0) as line:
+            line.quantite_a_recevoir = 3.0
+            line.numero_lot_fournisseur = 'FORM-001'
+            line.date_fabrication = date(2026, 1, 1)
+            line.date_peremption = date(2027, 1, 1)
+        wizard = form.save()
+        self.assertEqual(wizard.reappro_id, reappro)
+        self.assertEqual(wizard.ligne_ids.reappro_ligne_id, reappro.ligne_ids)
+        wizard.action_valider()
+        self.assertEqual(reappro.statut, 'recue_partiellement')
 
     def test_reception_refuse_une_quantite_superieure_au_reliquat(self):
         reappro = self._create_reappro()
